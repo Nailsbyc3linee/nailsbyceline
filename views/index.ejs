@@ -641,5 +641,268 @@
     </section>
 
     <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <!-- Business Info -->
+          <div>
+            <div class="flex items-center space-x-2 mb-6">
+              <i class="fas fa-gem text-2xl text-pink-500"></i>
+              <span
+                class="text-xl font-bold"
+                style="font-family: 'Playfair Display', serif"
+              >
+                <%= business.name %>
+              </span>
+            </div>
+            <p class="text-gray-300 mb-4"><%= business.tagline %></p>
+            <p class="text-gray-400 text-sm leading-relaxed">
+              Professional nail care services in a luxurious and relaxing
+              environment. Your beauty and satisfaction are our top priorities.
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-300 hover:text-pink-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#gallery"
+                  class="text-gray-300 hover:text-pink-400 transition-colors"
+                  >Gallery</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#services"
+                  class="text-gray-300 hover:text-pink-400 transition-colors"
+                  >Services</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  class="text-gray-300 hover:text-pink-400 transition-colors"
+                  >Contact</a
+                >
+              </li>
+              <li>
+                <a
+                  href="tel:<%= business.phone %>"
+                  class="text-gray-300 hover:text-pink-400 transition-colors"
+                  >Book Now</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Services -->
+          <div>
+            <h3 class="text-lg font-semibold mb-6">Popular Services</h3>
+            <ul class="space-y-3">
+              <% business.services.slice(0, 5).forEach(service => { %>
+              <li
+                class="text-gray-300 hover:text-pink-400 transition-colors cursor-pointer"
+              >
+                <%= service.name %>
+              </li>
+              <% }) %>
+            </ul>
+          </div>
+
+          <!-- Contact Info -->
+          <div>
+            <h3 class="text-lg font-semibold mb-6">Contact Info</h3>
+            <div class="space-y-4">
+              <div class="flex items-start text-gray-300">
+                <i class="fas fa-map-marker-alt text-pink-500 mt-1 mr-3"></i>
+                <p class="text-sm"><%= business.address %></p>
+              </div>
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-phone text-pink-500 mr-3"></i>
+                <a
+                  href="tel:<%= business.phone %>"
+                  class="text-sm hover:text-pink-400 transition-colors"
+                >
+                  <%= business.phone %>
+                </a>
+              </div>
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-envelope text-pink-500 mr-3"></i>
+                <a
+                  href="mailto:<%= business.email %>"
+                  class="text-sm hover:text-pink-400 transition-colors"
+                >
+                  <%= business.email %>
+                </a>
+              </div>
+            </div>
+
+            <!-- Business Hours -->
+            <div class="mt-6">
+              <h4 class="text-sm font-semibold text-pink-400 mb-2">
+                Business Hours
+              </h4>
+              <p class="text-gray-400 text-xs">
+                <%= business.hours.weekdays %>
+              </p>
+              <p class="text-gray-400 text-xs"><%= business.hours.weekend %></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media & Bottom Bar -->
+        <div class="border-t border-gray-800 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="flex space-x-6 mb-4 md:mb-0">
+              <a
+                href="https://instagram.com/<%= business.socialMedia.instagram.replace('@', '') %>"
+                class="text-gray-400 hover:text-pink-400 transition-colors"
+              >
+                <i class="fab fa-instagram text-xl"></i>
+              </a>
+              <a
+                href="https://facebook.com/<%= business.socialMedia.facebook %>"
+                class="text-gray-400 hover:text-pink-400 transition-colors"
+              >
+                <i class="fab fa-facebook text-xl"></i>
+              </a>
+              <a
+                href="https://tiktok.com/<%= business.socialMedia.tiktok.replace('@', '') %>"
+                class="text-gray-400 hover:text-pink-400 transition-colors"
+              >
+                <i class="fab fa-tiktok text-xl"></i>
+              </a>
+              <a
+                href="https://yelp.com"
+                class="text-gray-400 hover:text-pink-400 transition-colors"
+              >
+                <i class="fab fa-yelp text-xl"></i>
+              </a>
+              <a
+                href="https://google.com/maps"
+                class="text-gray-400 hover:text-pink-400 transition-colors"
+              >
+                <i class="fab fa-google text-xl"></i>
+              </a>
+            </div>
+
+            <div
+              class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6"
+            >
+              <div class="flex items-center space-x-4">
+                <span class="text-yellow-400 text-sm">★★★★★</span>
+                <span class="text-gray-400 text-xs">5.0 • 200+ Reviews</span>
+              </div>
+              <a
+                href="tel:<%= business.phone %>"
+                class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors"
+              >
+                <i class="fas fa-phone mr-2"></i>Call Now
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-8 text-center">
+            <p class="text-gray-400 text-sm">
+              © <%= new Date().getFullYear() %> <%= business.name %>. All rights
+              reserved.
+              <span class="text-gray-500">|</span>
+              <a href="#" class="hover:text-pink-400 transition-colors"
+                >Privacy Policy</a
+              >
+              <span class="text-gray-500">|</span>
+              <a href="#" class="hover:text-pink-400 transition-colors"
+                >Terms of Service</a
+              >
+            </p>
+            <p class="text-gray-500 text-xs mt-2">
+              Professional nail salon serving Style City and surrounding areas
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Book Now Button (Mobile) -->
+    <div class="fixed bottom-6 right-6 z-50 md:hidden">
+      <a
+        href="tel:<%= business.phone %>"
+        class="bg-pink-600 hover:bg-pink-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+      >
+        <i class="fas fa-phone text-xl"></i>
+      </a>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button
+      id="scrollToTop"
+      class="fixed bottom-6 left-6 bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50"
+    >
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Scroll to top button functionality
+      const scrollToTopBtn = document.getElementById("scrollToTop");
+
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.classList.remove("opacity-0", "invisible");
+        } else {
+          scrollToTopBtn.classList.add("opacity-0", "invisible");
+        }
+      });
+
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Form submission handling
+      const bookingForm = document.querySelector("form");
+      if (bookingForm) {
+        bookingForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert(
+            "Thank you for your booking request! We will contact you shortly to confirm your appointment."
+          );
+        });
+      }
+
+      // Mobile menu toggle (if needed)
+      const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+      const mobileMenu = document.querySelector(".mobile-menu");
+
+      if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+      }
+    </script>
   </body>
 </html>

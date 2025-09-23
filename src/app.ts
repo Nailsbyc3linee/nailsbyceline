@@ -19,10 +19,10 @@ app.use("/css", express.static(path.join(__dirname, "../")));
 // Routes
 app.get("/", (req, res) => {
   const businessInfo = {
-    name: "Elegant Nails Studio",
+    name: "NailsByCeline",
     tagline: "Where Beauty Meets Perfection",
     phone: "+1 (555) 123-4567",
-    email: "info@elegantnails.com",
+    email: "Nailsbyc3linee@gmail.com",
     address: "123 Beauty Lane, Style City, SC 12345",
     hours: {
       weekdays: "Monday - Friday: 9:00 AM - 7:00 PM",
