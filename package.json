@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
