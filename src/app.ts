@@ -21,12 +21,11 @@ app.get("/", (req, res) => {
   const businessInfo = {
     name: "NailsByCeline",
     tagline: "Where Beauty Meets Perfection",
-    phone: "+1 (555) 123-4567",
+    phone: "+46 76-709 84 88",
     email: "Nailsbyc3linee@gmail.com",
-    address: "123 Beauty Lane, Style City, SC 12345",
     hours: {
-      weekdays: "Monday - Friday: 9:00 AM - 7:00 PM",
-      weekend: "Saturday - Sunday: 10:00 AM - 6:00 PM",
+      weekdays: "Monday - Friday: 17:00 - 19:00",
+      weekend: "Saturday - Sunday: 12:00 - 20:00",
     },
     services: [
       {
@@ -62,7 +61,7 @@ app.get("/", (req, res) => {
     ],
     socialMedia: {
       instagram: "@nailsbyc3linee",
-      tiktok: "@nailsbyc3line",
+      tiktok: "@@nailsbyc3line",
     },
   };
 
