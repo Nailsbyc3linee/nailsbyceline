@@ -61,9 +61,8 @@ app.get("/", (req, res) => {
       },
     ],
     socialMedia: {
-      instagram: "@elegantnails_studio",
-      facebook: "ElegantNailsStudio",
-      tiktok: "@elegantnails",
+      instagram: "@nailsbyc3linee",
+      tiktok: "@nailsbyc3line",
     },
   };
 
