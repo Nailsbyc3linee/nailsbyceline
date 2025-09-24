@@ -78,11 +78,39 @@
         text-align: center;
         border: 2px dashed #d1d5db;
         transition: all 0.3s ease;
+        overflow: hidden;
       }
 
       .image-placeholder:hover {
         border-color: #f093fb;
         background: linear-gradient(45deg, #fef7ff, #fce7f3);
+      }
+
+      .image-placeholder.loading {
+        background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+        background-size: 400% 400%;
+        animation: shimmer 1.5s ease-in-out infinite;
+      }
+
+      .image-placeholder.image-error {
+        border-color: #fca5a5;
+        background: linear-gradient(45deg, #fef2f2, #fee2e2);
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .rounded-inherit {
+        border-radius: inherit;
       }
 
       .service-card {
@@ -195,25 +223,41 @@
 
           <!-- Hero Gallery Placeholders -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            <div class="image-placeholder h-32 rounded-lg glass-effect">
+            <div
+              class="image-placeholder h-32 rounded-lg glass-effect"
+              data-image-key="hero1"
+              data-alt="Nail Art Showcase"
+            >
               <div class="text-center">
                 <i class="fas fa-image text-2xl mb-2"></i>
                 <p class="text-xs">Hero Image 1<br />Nail Art Showcase</p>
               </div>
             </div>
-            <div class="image-placeholder h-32 rounded-lg glass-effect">
+            <div
+              class="image-placeholder h-32 rounded-lg glass-effect"
+              data-image-key="hero2"
+              data-alt="Manicure Process"
+            >
               <div class="text-center">
                 <i class="fas fa-image text-2xl mb-2"></i>
                 <p class="text-xs">Hero Image 2<br />Manicure Process</p>
               </div>
             </div>
-            <div class="image-placeholder h-32 rounded-lg glass-effect">
+            <div
+              class="image-placeholder h-32 rounded-lg glass-effect"
+              data-image-key="hero3"
+              data-alt="Studio Interior"
+            >
               <div class="text-center">
                 <i class="fas fa-image text-2xl mb-2"></i>
                 <p class="text-xs">Hero Image 3<br />Studio Interior</p>
               </div>
             </div>
-            <div class="image-placeholder h-32 rounded-lg glass-effect">
+            <div
+              class="image-placeholder h-32 rounded-lg glass-effect"
+              data-image-key="hero4"
+              data-alt="Happy Client"
+            >
               <div class="text-center">
                 <i class="fas fa-image text-2xl mb-2"></i>
                 <p class="text-xs">Hero Image 4<br />Happy Client</p>
@@ -244,6 +288,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           <div
             class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
+            data-image-key="featured1"
+            data-alt="Elegant French Manicure with Gold Accents"
           >
             <div class="text-center">
               <i class="fas fa-image text-4xl mb-4 text-pink-400"></i>
@@ -255,6 +301,8 @@
           </div>
           <div
             class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
+            data-image-key="featured2"
+            data-alt="Colorful Nail Art with Geometric Patterns"
           >
             <div class="text-center">
               <i class="fas fa-image text-4xl mb-4 text-pink-400"></i>
@@ -264,6 +312,8 @@
           </div>
           <div
             class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
+            data-image-key="featured3"
+            data-alt="Acrylic Extensions with Ombre Design"
           >
             <div class="text-center">
               <i class="fas fa-image text-4xl mb-4 text-pink-400"></i>
@@ -280,6 +330,8 @@
           <% for(let i = 1; i <= 5; i++) { %>
           <div
             class="image-placeholder h-48 rounded-lg hover:scale-105 transition-transform"
+            data-image-key="gallery<%= i %>"
+            data-alt="Gallery Image <%= i %>"
           >
             <div class="text-center">
               <i class="fas fa-image text-2xl mb-2 text-gray-400"></i>
@@ -298,6 +350,8 @@
             <% for(let i = 1; i <= 6; i++) { %>
             <div
               class="image-placeholder h-32 rounded-lg hover:scale-105 transition-transform"
+              data-image-key="insta<%= i %>"
+              data-alt="Instagram Post <%= i %>"
             >
               <div class="text-center">
                 <i class="fab fa-instagram text-xl text-pink-500"></i>
@@ -340,6 +394,8 @@
           >
             <div
               class="image-placeholder h-48 rounded-xl mb-6 hover:scale-105 transition-transform"
+              data-image-key="service<%= index + 1 %>"
+              data-alt="<%= service.name %> Service"
             >
               <div class="text-center">
                 <i class="fas fa-hand-sparkles text-3xl mb-3 text-pink-500"></i>
@@ -380,7 +436,11 @@
                   <h4 class="text-sm font-semibold text-gray-600 mb-2">
                     BEFORE
                   </h4>
-                  <div class="image-placeholder h-40 rounded-lg">
+                  <div
+                    class="image-placeholder h-40 rounded-lg"
+                    data-image-key="before<%= i %>"
+                    data-alt="Before Transformation <%= i %>"
+                  >
                     <div class="text-center">
                       <i class="fas fa-image text-xl mb-2"></i>
                       <p class="text-xs">Before <%= i %></p>
@@ -391,7 +451,11 @@
                   <h4 class="text-sm font-semibold text-gray-600 mb-2">
                     AFTER
                   </h4>
-                  <div class="image-placeholder h-40 rounded-lg">
+                  <div
+                    class="image-placeholder h-40 rounded-lg"
+                    data-image-key="after<%= i %>"
+                    data-alt="After Transformation <%= i %>"
+                  >
                     <div class="text-center">
                       <i class="fas fa-image text-xl mb-2"></i>
                       <p class="text-xs">After <%= i %></p>
@@ -427,7 +491,11 @@
             class="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow"
           >
             <div class="flex items-center mb-4">
-              <div class="image-placeholder w-16 h-16 rounded-full mr-4">
+              <div
+                class="image-placeholder w-16 h-16 rounded-full mr-4"
+                data-image-key="client<%= i %>"
+                data-alt="Client <%= i %> Photo"
+              >
                 <i class="fas fa-user text-gray-400"></i>
               </div>
               <div>
@@ -533,7 +601,11 @@
                 <!-- Social Media Preview -->
                 <div class="mt-6 grid grid-cols-3 gap-2">
                   <% for(let i = 1; i <= 6; i++) { %>
-                  <div class="image-placeholder h-16 rounded-lg">
+                  <div
+                    class="image-placeholder h-16 rounded-lg"
+                    data-image-key="social<%= i %>"
+                    data-alt="Social Media Post <%= i %>"
+                  >
                     <i class="fab fa-instagram text-sm text-pink-300"></i>
                   </div>
                   <% } %>
@@ -805,7 +877,205 @@
       <i class="fas fa-chevron-up"></i>
     </button>
 
+    <!-- Image Loading Script -->
     <script>
+      // Image loading with fallback functionality
+      class ImageHandler {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          // Wait for DOM to be ready
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", () =>
+              this.setupImages()
+            );
+          } else {
+            this.setupImages();
+          }
+        }
+
+        setupImages() {
+          // Find all image placeholders
+          const placeholders = document.querySelectorAll(
+            ".image-placeholder[data-image]"
+          );
+
+          placeholders.forEach((placeholder) => {
+            this.loadImageWithFallback(placeholder);
+          });
+        }
+
+        loadImageWithFallback(placeholder) {
+          const imagePath = placeholder.getAttribute("data-image");
+          const altText = placeholder.getAttribute("data-alt") || "Image";
+
+          // Create image element
+          const img = new Image();
+
+          // Store original placeholder content
+          const originalContent = placeholder.innerHTML;
+
+          // Add loading state
+          placeholder.classList.add("loading");
+
+          img.onload = () => {
+            // Image loaded successfully
+            this.showImage(placeholder, img, altText);
+          };
+
+          img.onerror = () => {
+            // Image failed to load, keep placeholder
+            this.showFallback(placeholder, originalContent);
+          };
+
+          // Start loading the image
+          img.src = imagePath;
+        }
+
+        showImage(placeholder, img, altText) {
+          // Remove loading state
+          placeholder.classList.remove("loading");
+
+          // Create image container
+          const imageContainer = document.createElement("div");
+          imageContainer.className = "absolute inset-0 w-full h-full";
+
+          // Create actual image element
+          const imageElement = document.createElement("img");
+          imageElement.src = img.src;
+          imageElement.alt = altText;
+          imageElement.className = "w-full h-full object-cover rounded-inherit";
+
+          // Add fade-in animation
+          imageElement.style.opacity = "0";
+          imageElement.style.transition = "opacity 0.3s ease-in-out";
+
+          imageContainer.appendChild(imageElement);
+
+          // Make placeholder relative for absolute positioning
+          placeholder.style.position = "relative";
+          placeholder.appendChild(imageContainer);
+
+          // Fade in the image
+          setTimeout(() => {
+            imageElement.style.opacity = "1";
+          }, 50);
+
+          // Add hover effect to show placeholder content on hover (optional)
+          this.addHoverEffect(placeholder, imageContainer);
+        }
+
+        showFallback(placeholder, originalContent) {
+          // Remove loading state and show original placeholder
+          placeholder.classList.remove("loading");
+          placeholder.innerHTML = originalContent;
+
+          // Add error styling
+          placeholder.classList.add("image-error");
+        }
+
+        addHoverEffect(placeholder, imageContainer) {
+          // Show placeholder content on hover (optional feature)
+          placeholder.addEventListener("mouseenter", () => {
+            const overlay = document.createElement("div");
+            overlay.className =
+              "absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-sm opacity-0 transition-opacity duration-300 rounded-inherit";
+            overlay.innerHTML = '<i class="fas fa-eye text-xl"></i>';
+
+            imageContainer.appendChild(overlay);
+
+            setTimeout(() => {
+              overlay.style.opacity = "1";
+            }, 10);
+          });
+
+          placeholder.addEventListener("mouseleave", () => {
+            const overlay = imageContainer.querySelector(".bg-black");
+            if (overlay) {
+              overlay.remove();
+            }
+          });
+        }
+      }
+
+      // Image path mapping for easy management
+      const IMAGE_PATHS = {
+        // Hero section images
+        hero1: "/images/hero-nail-art-1.jpg",
+        hero2: "/images/hero-manicure-2.jpg",
+        hero3: "/images/hero-studio-3.jpg",
+        hero4: "/images/hero-client-4.jpg",
+
+        // Featured gallery images
+        featured1: "/images/featured-french-gold.jpg",
+        featured2: "/images/featured-colorful-art.jpg",
+        featured3: "/images/featured-acrylic-ombre.jpg",
+
+        // Gallery images
+        gallery1: "/images/gallery-1.jpg",
+        gallery2: "/images/gallery-2.jpg",
+        gallery3: "/images/gallery-3.jpg",
+        gallery4: "/images/gallery-4.jpg",
+        gallery5: "/images/gallery-5.jpg",
+
+        // Instagram feed
+        insta1: "/images/instagram-1.jpg",
+        insta2: "/images/instagram-2.jpg",
+        insta3: "/images/instagram-3.jpg",
+        insta4: "/images/instagram-4.jpg",
+        insta5: "/images/instagram-5.jpg",
+        insta6: "/images/instagram-6.jpg",
+
+        // Service images
+        service1: "/images/service-classic-manicure.jpg",
+        service2: "/images/service-gel-manicure.jpg",
+        service3: "/images/service-nail-art.jpg",
+        service4: "/images/service-french-manicure.jpg",
+
+        // Before/after images
+        before1: "/images/before-1.jpg",
+        after1: "/images/after-1.jpg",
+        before2: "/images/before-2.jpg",
+        after2: "/images/after-2.jpg",
+        before3: "/images/before-3.jpg",
+        after3: "/images/after-3.jpg",
+
+        // Client photos
+        client1: "/images/client-1.jpg",
+        client2: "/images/client-2.jpg",
+        client3: "/images/client-3.jpg",
+
+        // Social media preview
+        social1: "/images/social-1.jpg",
+        social2: "/images/social-2.jpg",
+        social3: "/images/social-3.jpg",
+        social4: "/images/social-4.jpg",
+        social5: "/images/social-5.jpg",
+        social6: "/images/social-6.jpg",
+      };
+
+      // Auto-assign images to placeholders based on data-image-key
+      function autoAssignImages() {
+        const placeholders = document.querySelectorAll(
+          ".image-placeholder[data-image-key]"
+        );
+
+        placeholders.forEach((placeholder) => {
+          const key = placeholder.getAttribute("data-image-key");
+          if (IMAGE_PATHS[key]) {
+            placeholder.setAttribute("data-image", IMAGE_PATHS[key]);
+          }
+        });
+      }
+
+      // Initialize when DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        autoAssignImages();
+        new ImageHandler();
+      });
+
       // Smooth scrolling for navigation links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
@@ -846,16 +1116,6 @@
           alert(
             "Thank you for your booking request! We will contact you shortly to confirm your appointment."
           );
-        });
-      }
-
-      // Mobile menu toggle (if needed)
-      const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
-      const mobileMenu = document.querySelector(".mobile-menu");
-
-      if (mobileMenuToggle && mobileMenu) {
-        mobileMenuToggle.addEventListener("click", () => {
-          mobileMenu.classList.toggle("hidden");
         });
       }
     </script>
