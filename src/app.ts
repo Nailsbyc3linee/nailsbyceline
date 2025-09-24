@@ -50,7 +50,7 @@ const businessInfo = {
   ],
   socialMedia: {
     instagram: "@nailsbyc3linee",
-    tiktok: "@nailsbyc3line",
+    tiktok: "@@nailsbyc3line",
   },
 };
 
@@ -59,18 +59,12 @@ app.get("/", (req, res) => {
   res.render("index", { business: businessInfo });
 });
 
-// Fixed route names to match your file names
 app.get("/privacy-policy", (req, res) => {
-  res.render("privacy", { business: businessInfo });
+  res.render("privacy-policy", { business: businessInfo });
 });
 
 app.get("/terms-of-service", (req, res) => {
-  res.render("terms", { business: businessInfo });
-});
-
-// Handle 404 errors
-app.use((req, res) => {
-  res.status(404).render("index", { business: businessInfo });
+  res.render("terms-of-service", { business: businessInfo });
 });
 
 app.listen(PORT, () => {
