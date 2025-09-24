@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="<%= lang %>" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= business.name %> - Professional Nail Services</title>
     <meta
       name="description"
-      content="<%= business.name %> - <%= business.tagline %>. Professional nail services including manicures, pedicures, nail art, and extensions."
+      content="<%= business.name %> - <%= t.tagline %>. Professional nail services including manicures, pedicures, nail art, and extensions."
     />
 
     <!-- Fonts -->
@@ -98,6 +98,74 @@
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
+
+      .language-switcher {
+        position: relative;
+        display: inline-block;
+      }
+
+      .language-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        min-width: 120px;
+      }
+
+      .language-dropdown.show {
+        display: block;
+      }
+
+      .language-option {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        text-decoration: none;
+        color: #374151;
+        transition: background-color 0.2s;
+      }
+
+      .language-option:hover {
+        background-color: #f3f4f6;
+      }
+
+      .flag-icon {
+        width: 20px;
+        height: 15px;
+        margin-right: 8px;
+        border-radius: 2px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        background-size: cover;
+      }
+
+      .flag-en {
+        background: linear-gradient(
+          to bottom,
+          #012169 0%,
+          #012169 33%,
+          #fff 33%,
+          #fff 66%,
+          #c8102e 66%
+        );
+      }
+      .flag-sv {
+        background: linear-gradient(
+          to right,
+          #006aa7 0%,
+          #006aa7 37.5%,
+          #fecc00 37.5%,
+          #fecc00 62.5%,
+          #006aa7 62.5%
+        );
+      }
     </style>
   </head>
 
@@ -114,33 +182,53 @@
               ><%= business.name %></span
             >
           </div>
-          <div class="hidden md:flex space-x-6">
+          <div class="hidden md:flex items-center space-x-6">
             <a
               href="#home"
               class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Home</a
+              ><%= t.home %></a
             >
             <a
               href="#gallery"
               class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Gallery</a
+              ><%= t.gallery %></a
             >
             <a
               href="#services"
               class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Services</a
+              ><%= t.services %></a
             >
             <a
               href="#contact"
               class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Contact</a
+              ><%= t.contact %></a
             >
+
+            <!-- Language Switcher -->
+            <div class="language-switcher">
+              <button
+                id="languageToggle"
+                class="flex items-center space-x-2 text-gray-700 hover:text-pink-500 transition-colors"
+              >
+                <div class="flag-icon flag-<%= lang %>"></div>
+                <span class="text-sm font-medium"
+                  ><%= lang.toUpperCase() %></span
+                >
+                <i class="fas fa-chevron-down text-xs"></i>
+              </button>
+              <div id="languageDropdown" class="language-dropdown">
+                <a href="?lang=<%= otherLang %>" class="language-option">
+                  <div class="flag-icon flag-<%= otherLang %>"></div>
+                  <span><%= otherLangName %></span>
+                </a>
+              </div>
+            </div>
           </div>
           <a
             href="tel:<%= business.phone %>"
             class="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition-colors"
           >
-            <i class="fas fa-phone mr-2"></i>Book Now
+            <i class="fas fa-phone mr-2"></i><%= t.bookNow %>
           </a>
         </div>
       </div>
@@ -173,9 +261,7 @@
           >
             <%= business.name %>
           </h1>
-          <p class="text-xl md:text-2xl text-white/90 mb-8">
-            <%= business.tagline %>
-          </p>
+          <p class="text-xl md:text-2xl text-white/90 mb-8"><%= t.tagline %></p>
           <div
             class="flex flex-col md:flex-row gap-4 justify-center items-center mb-12"
           >
@@ -183,7 +269,7 @@
               href="#services"
               class="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all transform hover:scale-105"
             >
-              View Services
+              <%= t.viewServices %>
             </a>
             <a
               href="mailto:<%= business.email %>"
@@ -232,11 +318,10 @@
             class="text-4xl md:text-5xl font-bold text-gray-800 mb-4"
             style="font-family: 'Playfair Display', serif"
           >
-            My Beautiful Work
+            <%= t.myBeautifulWork %>
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover my stunning nail art creations and see why my clients love
-            my work
+            <%= t.galleryDescription %>
           </p>
         </div>
 
@@ -292,7 +377,7 @@
         <!-- Instagram Feed Placeholder -->
         <div class="mt-16 text-center">
           <h3 class="text-2xl font-bold text-gray-800 mb-8">
-            Follow Me on Instagram
+            <%= t.followMeOnInstagram %>
           </h3>
           <div class="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
             <% for(let i = 1; i <= 6; i++) { %>
@@ -310,7 +395,7 @@
             href="https://instagram.com/<%= business.socialMedia.instagram.replace('@', '') %>"
             class="inline-block mt-8 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-105"
           >
-            <i class="fab fa-instagram mr-2"></i>Follow <%=
+            <i class="fab fa-instagram mr-2"></i><%= t.followMe %> <%=
             business.socialMedia.instagram %>
           </a>
         </div>
@@ -325,16 +410,15 @@
             class="text-4xl md:text-5xl font-bold text-gray-800 mb-4"
             style="font-family: 'Playfair Display', serif"
           >
-            My Services
+            <%= t.myServices %>
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Professional nail care services tailored to your style and
-            preferences
+            <%= t.servicesDescription %>
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <% business.services.forEach((service, index) => { %>
+          <% Object.values(t.services).forEach((service, index) => { %>
           <div
             class="service-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl"
           >
@@ -360,7 +444,7 @@
                 href="tel:<%= business.phone %>"
                 class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition-colors"
               >
-                Book Now
+                <%= t.bookNow %>
               </a>
             </div>
           </div>
@@ -370,7 +454,7 @@
         <!-- Before/After Section -->
         <div class="mt-20">
           <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">
-            Before & After Transformations
+            <%= t.beforeAfterTransformations %>
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <% for(let i = 1; i <= 3; i++) { %>
