@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service - <%= business.name %></title>
+    <meta
+      name="description"
+      content="Terms of Service for <%= business.name %>. Learn about our service terms, conditions, and policies."
+    />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      .hero-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-lg shadow-lg z-50">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-gem text-2xl text-pink-500"></i>
+            <a
+              href="/"
+              class="text-xl font-bold text-gray-800 hover:text-pink-500 transition-colors"
+              style="font-family: 'Playfair Display', serif"
+            >
+              <%= business.name %>
+            </a>
+          </div>
+          <div class="hidden md:flex space-x-6">
+            <a
+              href="/"
+              class="text-gray-700 hover:text-pink-500 transition-colors"
+            >
+              Home
+            </a>
+            <a
+              href="/#gallery"
+              class="text-gray-700 hover:text-pink-500 transition-colors"
+            >
+              Gallery
+            </a>
+            <a
+              href="/#services"
+              class="text-gray-700 hover:text-pink-500 transition-colors"
+            >
+              Services
+            </a>
+            <a
+              href="/#contact"
+              class="text-gray-700 hover:text-pink-500 transition-colors"
+            >
+              Contact
+            </a>
+          </div>
+          <a
+            href="tel:<%= business.phone %>"
+            class="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition-colors"
+          >
+            <i class="fas fa-phone mr-2"></i>Book Now
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="pt-24 pb-12 hero-gradient">
+      <div class="container mx-auto px-4 text-center">
+        <h1
+          class="text-4xl md:text-5xl font-bold text-white mb-4"
+          style="font-family: 'Playfair Display', serif"
+        >
+          Terms of Service
+        </h1>
+        <p class="text-xl text-white/90 max-w-2xl mx-auto">
+          Please read these terms carefully before using our services. By
+          booking an appointment, you agree to these terms and conditions.
+        </p>
+        <p class="text-white/75 mt-4">
+          Last updated: <%= new Date().toLocaleDateString('en-US', { year:
+          'numeric', month: 'long', day: 'numeric' }) %>
+        </p>
+      </div>
+    </section>
+
+    <!-- Terms of Service Content -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="prose prose-lg max-w-none">
+          <!-- Introduction -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Agreement to Terms
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              These Terms of Service ("Terms") govern your use of the <%=
+              business.name %> website and services. By accessing our website,
+              booking appointments, or using our nail care services, you agree
+              to be bound by these Terms.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+              If you do not agree to these Terms, please do not use our services
+              or website.
+            </p>
+          </div>
+
+          <!-- Services -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Our Services
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              <%= business.name %> provides professional nail care services
+              including:
+            </p>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed space-y-2"
+            >
+              <li>Manicures and pedicures</li>
+              <li>Gel polish application</li>
+              <li>Nail art and design</li>
+              <li>Nail extensions and repairs</li>
+              <li>Cuticle care and nail shaping</li>
+              <li>Other nail enhancement services as offered</li>
+            </ul>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              All services are performed by qualified professionals in a clean,
+              safe environment using high-quality products and equipment.
+            </p>
+          </div>
+
+          <!-- Booking and Appointments -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Booking and Appointments
+            </h2>
+
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">
+              Appointment Booking
+            </h3>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed mb-6 space-y-2"
+            >
+              <li>
+                Appointments can be booked by phone (<%= business.phone %>),
+                email (<%= business.email %>), or through our website
+              </li>
+              <li>All appointments are subject to availability</li>
+              <li>
+                You must provide accurate contact information when booking
+              </li>
+              <li>
+                Appointments are confirmed once you receive confirmation from us
+              </li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">
+              Appointment Changes and Cancellations
+            </h3>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed mb-6 space-y-2"
+            >
+              <li>
+                Please provide at least 24 hours notice for appointment
+                cancellations or changes
+              </li>
+              <li>
+                Late cancellations (less than 24 hours) may be subject to a
+                cancellation fee
+              </li>
+              <li>
+                No-shows may be charged the full service fee and may affect
+                future booking privileges
+              </li>
+              <li>
+                We reserve the right to reschedule appointments due to
+                unforeseen circumstances
+              </li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">
+              Late Arrivals
+            </h3>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              Please arrive on time for your appointment. If you arrive more
+              than 15 minutes late, we may need to reschedule your appointment
+              to ensure quality service for all clients.
+            </p>
+          </div>
+
+          <!-- Payment Terms -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Payment Terms
+            </h2>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed space-y-2"
+            >
+              <li>Payment is due at the time of service</li>
+              <li>We accept cash, credit cards, and mobile payments</li>
+              <li>
+                All prices are in Swedish Krona (SEK) and include applicable
+                taxes
+              </li>
+              <li>
+                Service prices may vary based on complexity and time required
+              </li>
+              <li>Gratuity is appreciated but not mandatory</li>
+              <li>
+                Refunds are provided only in exceptional circumstances and at
+                our discretion
+              </li>
+            </ul>
+          </div>
+
+          <!-- Health and Safety -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Health and Safety
+            </h2>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed space-y-2"
+            >
+              <li>
+                Please inform us of any allergies, medical conditions, or
+                sensitivities before your appointment
+              </li>
+              <li>
+                We reserve the right to refuse service if we believe it may be
+                unsafe for you or others
+              </li>
+              <li>
+                All tools and equipment are properly sanitized between clients
+              </li>
+              <li>
+                If you feel unwell or have symptoms of illness, please
+                reschedule your appointment
+              </li>
+              <li>
+                We follow all local health department guidelines and regulations
+              </li>
+            </ul>
+          </div>
+
+          <!-- Liability and Disclaimer -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Liability and Disclaimer
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              While we strive to provide excellent service, please note:
+            </p>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed space-y-2"
+            >
+              <li>
+                You use our services at your own risk and we are not liable for
+                any adverse reactions or dissatisfaction
+              </li>
+              <li>
+                We are not responsible for nail damage due to pre-existing
+                conditions or improper aftercare
+              </li>
+              <li>
+                Service longevity depends on individual nail condition,
+                lifestyle, and aftercare
+              </li>
+              <li>
+                We recommend patch testing for clients with sensitive skin or
+                known allergies
+              </li>
+            </ul>
+          </div>
+
+          <!-- Intellectual Property -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Intellectual Property
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              All content on our website, including text, images, logos, and
+              designs, is the property of <%= business.name %> and is protected
+              by intellectual property laws. You may not reproduce, distribute,
+              or use our content without written permission.
+            </p>
+          </div>
+
+          <!-- Photography and Social Media -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Photography and Social Media
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              By booking our services, you consent to:
+            </p>
+            <ul
+              class="list-disc list-inside text-gray-600 leading-relaxed space-y-2"
+            >
+              <li>
+                Photography of your nail work for portfolio and promotional
+                purposes
+              </li>
+              <li>Use of images on our website and social media platforms</li>
+              <li>
+                Sharing of your nail art on our professional social media
+                accounts
+              </li>
+            </ul>
+            <p class="text-gray-600 leading-relaxed mt-4">
+              Please inform us if you prefer not to have your nails photographed
+              or shared on social media.
+            </p>
+          </div>
+
+          <!-- Modifications -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Modifications to Terms
+            </h2>
+            <p class="text-gray-600 leading-relaxed">
+              We reserve the right to modify these Terms of Service at any time.
+              Changes will be posted on our website with an updated date. Your
+              continued use of our services after changes are posted constitutes
+              acceptance of the modified terms.
+            </p>
+          </div>
+
+          <!-- Governing Law -->
+          <div class="mb-12">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Governing Law
+            </h2>
+            <p class="text-gray-600 leading-relaxed">
+              These Terms are governed by the laws of Sweden. Any disputes
+              arising from these Terms or our services will be resolved through
+              the Swedish court system.
+            </p>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="bg-pink-50 rounded-xl p-8">
+            <h2
+              class="text-3xl font-bold text-gray-800 mb-6"
+              style="font-family: 'Playfair Display', serif"
+            >
+              Contact Us
+            </h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+              If you have any questions about these Terms of Service, please
+              contact us:
+            </p>
+            <div class="space-y-3">
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-business text-pink-500 mr-3"></i>
+                <span><strong><%= business.name %></strong></span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-phone text-pink-500 mr-3"></i>
+                <a
+                  href="tel:<%= business.phone %>"
+                  class="hover:text-pink-600 transition-colors"
+                >
+                  <%= business.phone %>
+                </a>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-envelope text-pink-500 mr-3"></i>
+                <a
+                  href="mailto:<%= business.email %>"
+                  class="hover:text-pink-600 transition-colors"
+                >
+                  <%= business.email %>
+                </a>
+              </div>
+              <div class="flex items-start text-gray-700">
+                <i class="fas fa-clock text-pink-500 mr-3 mt-1"></i>
+                <div>
+                  <p><%= business.hours.weekdays %></p>
+                  <p><%= business.hours.weekend %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center space-x-2 mb-4 md:mb-0">
+            <i class="fas fa-gem text-2xl text-pink-500"></i>
+            <span
+              class="text-xl font-bold"
+              style="font-family: 'Playfair Display', serif"
+            >
+              <%= business.name %>
+            </span>
+          </div>
+          <div class="flex flex-wrap justify-center gap-6 text-sm">
+            <a
+              href="/"
+              class="text-gray-300 hover:text-pink-400 transition-colors"
+              >Home</a
+            >
+            <a
+              href="/privacy-policy"
+              class="text-gray-300 hover:text-pink-400 transition-colors"
+              >Privacy Policy</a
+            >
+            <a href="/terms-of-service" class="text-pink-400"
+              >Terms of Service</a
+            >
+            <a
+              href="/#contact"
+              class="text-gray-300 hover:text-pink-400 transition-colors"
+              >Contact</a
+            >
+          </div>
+        </div>
+        <div class="mt-8 text-center text-gray-400 text-sm">
+          <p>
+            © <%= new Date().getFullYear() %> <%= business.name %>. All rights
+            reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button
+      id="scrollToTop"
+      class="fixed bottom-6 right-6 bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50"
+    >
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+      // Scroll to top button functionality
+      const scrollToTopBtn = document.getElementById("scrollToTop");
+
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.classList.remove("opacity-0", "invisible");
+        } else {
+          scrollToTopBtn.classList.add("opacity-0", "invisible");
+        }
+      });
+
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+    </script>
+  </body>
+</html>
