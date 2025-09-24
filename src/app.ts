@@ -31,32 +31,22 @@ app.get("/", (req, res) => {
       {
         name: "Classic Manicure",
         description: "Professional nail care with polish application",
-        price: "$25 - $35",
+        price: "250 - 350 kr",
       },
       {
         name: "Gel Manicure",
         description: "Long-lasting gel polish that lasts up to 3 weeks",
-        price: "$45 - $55",
-      },
-      {
-        name: "Acrylic Extensions",
-        description: "Beautiful acrylic nail extensions with custom shapes",
-        price: "$60 - $80",
+        price: "450 - 550 kr",
       },
       {
         name: "Nail Art Design",
         description: "Custom nail art and decorative designs",
-        price: "$15 - $40",
-      },
-      {
-        name: "Pedicure",
-        description: "Relaxing foot care and nail treatment",
-        price: "$35 - $45",
+        price: "150 - 400 kr",
       },
       {
         name: "French Manicure",
         description: "Classic French tip design",
-        price: "$30 - $40",
+        price: "300 - 400 kr",
       },
     ],
     socialMedia: {

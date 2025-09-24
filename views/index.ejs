@@ -186,10 +186,10 @@
               View Services
             </a>
             <a
-              href="tel:<%= business.phone %>"
+              href="mailto:<%= business.email %>"
               class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-purple-700 transition-all transform hover:scale-105"
             >
-              <i class="fas fa-phone mr-2"></i><%= business.phone %>
+              <i class="fas fa-envelope mr-2"></i><%= business.email %>
             </a>
           </div>
 
@@ -235,8 +235,8 @@
             My Beautiful Work
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover my stunning nail art creations and see why my clients
-            love my work
+            Discover my stunning nail art creations and see why my clients love
+            my work
           </p>
         </div>
 
@@ -277,7 +277,7 @@
         <div
           class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
         >
-          <% for(let i = 1; i <= 15; i++) { %>
+          <% for(let i = 1; i <= 5; i++) { %>
           <div
             class="image-placeholder h-48 rounded-lg hover:scale-105 transition-transform"
           >
@@ -295,7 +295,7 @@
             Follow Me on Instagram
           </h3>
           <div class="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
-            <% for(let i = 1; i <= 12; i++) { %>
+            <% for(let i = 1; i <= 6; i++) { %>
             <div
               class="image-placeholder h-32 rounded-lg hover:scale-105 transition-transform"
             >
@@ -373,7 +373,7 @@
             Before & After Transformations
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <% for(let i = 1; i <= 6; i++) { %>
+            <% for(let i = 1; i <= 3; i++) { %>
             <div class="bg-white rounded-2xl p-6 shadow-lg">
               <div class="grid grid-cols-2 gap-4">
                 <div class="text-center">
@@ -737,12 +737,6 @@
                 class="text-gray-400 hover:text-pink-400 transition-colors"
               >
                 <i class="fab fa-tiktok text-xl"></i>
-              </a>
-              <a
-                href="https://yelp.com"
-                class="text-gray-400 hover:text-pink-400 transition-colors"
-              >
-                <i class="fab fa-yelp text-xl"></i>
               </a>
               <a
                 href="https://google.com/maps"
