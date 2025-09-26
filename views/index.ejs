@@ -1,265 +1,368 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= business.name %> - Professional Nail Services</title>
-    <meta
-      name="description"
-      content="<%= business.name %> - <%= business.tagline %>. Professional nail services including manicures, pedicures, nail art, and extensions."
-    />
 
-    <!-- Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Primary SEO Meta Tags -->
+  <title>
+    <%= business.pageTitle || business.seo.title %>
+  </title>
+  <meta name="title" content="<%= business.pageTitle || business.seo.title %>" />
+  <meta name="description" content="<%= business.pageDescription || business.seo.description %>" />
+  <meta name="keywords" content="<%= business.seo.keywords %>" />
+  <link rel="canonical" href="<%= business.canonical || business.seo.canonicalUrl %>" />
 
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="<%= business.ogType || 'business.business' %>" />
+  <meta property="og:url" content="<%= business.canonical || business.seo.canonicalUrl %>" />
+  <meta property="og:title" content="<%= business.pageTitle || business.seo.title %>" />
+  <meta property="og:description" content="<%= business.pageDescription || business.seo.description %>" />
+  <meta property="og:image" content="<%= business.seo.image %>" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_SE" />
+  <meta property="og:site_name" content="<%= business.name %>" />
 
-    <style>
-      .hero-gradient {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="<%= business.canonical || business.seo.canonicalUrl %>" />
+  <meta property="twitter:title" content="<%= business.pageTitle || business.seo.title %>" />
+  <meta property="twitter:description" content="<%= business.pageDescription || business.seo.description %>" />
+  <meta property="twitter:image" content="<%= business.seo.image %>" />
+
+  <!-- Local Business Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NailSalon",
+      "name": "<%= business.name %>",
+      "description": "<%= business.seo.description %>",
+      "url": "<%= business.seo.canonicalUrl %>",
+      "telephone": "<%= business.phone %>",
+      "email": "<%= business.email %>",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "<%= business.location.city %>",
+        "addressRegion": "<%= business.location.region %>",
+        "addressCountry": "<%= business.location.country %>",
+        "postalCode": "<%= business.location.postalCode %>"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 56.8777,
+        "longitude": 14.8091
+      },
+      "openingHoursSpecification": [
+        <% business.hours.structured.forEach((hour, index) => { %>
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "<%= hour.day %>",
+          "opens": "<%= hour.opens %>",
+          "closes": "<%= hour.closes %>"
+        }<%= index < business.hours.structured.length - 1 ? ',' : '' %>
+        <% }) %>
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "<%= business.reviews.rating %>",
+        "reviewCount": "<%= business.reviews.reviewCount %>",
+        "bestRating": "<%= business.reviews.bestRating %>",
+        "worstRating": "<%= business.reviews.worstRating %>"
+      },
+      "priceRange": "250-550 SEK",
+      "image": "<%= business.seo.image %>",
+      "sameAs": [
+        "<%= business.socialMedia.instagramUrl %>",
+        "<%= business.socialMedia.tiktokUrl %>"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Nail Care Services",
+        "itemListElement": [
+          <% business.services.forEach((service, index) => { %>
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "<%= service.name %>",
+              "description": "<%= service.description %>"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "<%= service.price %>",
+              "priceCurrency": "SEK"
+            }
+          }<%= index < business.services.length - 1 ? ',' : '' %>
+          <% }) %>
+        ]
+      }
+    }
+    </script>
+
+  <!-- Service Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Nail Care Services",
+      "description": "Professional nail care services offered by <%= business.name %>",
+      "itemListElement": [
+        <% business.services.forEach((service, index) => { %>
+        {
+          "@type": "ListItem",
+          "position": <%= index + 1 %>,
+          "item": {
+            "@type": "Service",
+            "@id": "<%= business.seo.canonicalUrl %>#<%= service.name.toLowerCase().replace(/\s+/g, '-') %>",
+            "name": "<%= service.name %>",
+            "description": "<%= service.description %>",
+            "provider": {
+              "@type": "NailSalon",
+              "name": "<%= business.name %>"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceRange": "<%= service.price %>",
+              "priceCurrency": "SEK"
+            }
+          }
+        }<%= index < business.services.length - 1 ? ',' : '' %>
+        <% }) %>
+      ]
+    }
+    </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "<%= business.seo.canonicalUrl %>"
+      }]
+    }
+    </script>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" media="swap" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    media="swap" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  <style>
+    .hero-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .nail-gradient {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .elegant-gradient {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+
+      0%,
+      100% {
+        transform: translateY(0px);
       }
 
-      .nail-gradient {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
 
-      .elegant-gradient {
-        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      .floating {
-        animation: floating 3s ease-in-out infinite;
-      }
+    .image-placeholder {
+      background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+      background-size: 20px 20px;
+      background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 14px;
+      text-align: center;
+      border: 2px dashed #d1d5db;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
 
-      @keyframes floating {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
+    .image-placeholder:hover {
+      border-color: #f093fb;
+      background: linear-gradient(45deg, #fef7ff, #fce7f3);
+    }
 
-      .fade-in {
-        animation: fadeIn 1s ease-in;
-      }
+    .rounded-inherit {
+      border-radius: inherit;
+    }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    .service-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-      .image-placeholder {
-        background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-        background-size: 20px 20px;
-        background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #9ca3af;
-        font-size: 14px;
-        text-align: center;
-        border: 2px dashed #d1d5db;
-        transition: all 0.3s ease;
-        overflow: hidden;
-      }
+    .service-card:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
 
-      .image-placeholder:hover {
-        border-color: #f093fb;
-        background: linear-gradient(45deg, #fef7ff, #fce7f3);
-      }
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-      .image-placeholder.loading {
-        background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-        background-size: 400% 400%;
-        animation: shimmer 1.5s ease-in-out infinite;
-      }
+    img[loading="lazy"] {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
 
-      .image-placeholder.image-error {
-        border-color: #fca5a5;
-        background: linear-gradient(45deg, #fef2f2, #fee2e2);
-      }
+    img[loading="lazy"].loaded {
+      opacity: 1;
+    }
+  </style>
+</head>
 
-      @keyframes shimmer {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
+<body class="bg-gray-50">
+  <!-- Skip to main content for accessibility -->
+  <a href="#main-content"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-600 text-white p-2 z-50">
+    Skip to main content
+  </a>
 
-      .rounded-inherit {
-        border-radius: inherit;
-      }
-
-      .service-card {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .service-card:hover {
-        transform: translateY(-8px) scale(1.02);
-      }
-
-      .glass-effect {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-    </style>
-  </head>
-
-  <body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-lg shadow-lg z-50">
-      <div class="container mx-auto px-4 py-3">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-2">
-            <i class="fas fa-gem text-2xl text-pink-500"></i>
-            <span
-              class="text-xl font-bold text-gray-800"
-              style="font-family: 'Playfair Display', serif"
-              ><%= business.name %></span
-            >
-          </div>
-          <div class="hidden md:flex space-x-6">
-            <a
-              href="#home"
-              class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Home</a
-            >
-            <a
-              href="#gallery"
-              class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Gallery</a
-            >
-            <a
-              href="#services"
-              class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Services</a
-            >
-            <a
-              href="#contact"
-              class="text-gray-700 hover:text-pink-500 transition-colors"
-              >Contact</a
-            >
-          </div>
-          <a
-            href="tel:<%= business.phone %>"
-            class="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition-colors"
-          >
-            <i class="fas fa-phone mr-2"></i>Book Now
-          </a>
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-lg shadow-lg z-50" role="navigation"
+    aria-label="Main navigation">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-gem text-2xl text-pink-500" aria-hidden="true"></i>
+          <span class="text-xl font-bold text-gray-800" style="font-family: 'Playfair Display', serif">
+            <%= business.name %>
+          </span>
         </div>
+        <div class="hidden md:flex space-x-6">
+          <a href="#home" class="text-gray-700 hover:text-pink-500 transition-colors"
+            aria-label="Go to home section">Home</a>
+          <a href="#gallery" class="text-gray-700 hover:text-pink-500 transition-colors"
+            aria-label="View our nail art gallery">Gallery</a>
+          <a href="#services" class="text-gray-700 hover:text-pink-500 transition-colors"
+            aria-label="View our nail care services">Services</a>
+          <a href="#contact" class="text-gray-700 hover:text-pink-500 transition-colors"
+            aria-label="Contact information and booking">Contact</a>
+        </div>
+        <a href="tel:<%= business.phone %>"
+          class="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition-colors"
+          aria-label="Call to book appointment">
+          <i class="fas fa-phone mr-2" aria-hidden="true"></i>Book Now
+        </a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
+  <!-- Main Content -->
+  <main id="main-content">
     <!-- Hero Section -->
-    <section
-      id="home"
-      class="min-h-screen hero-gradient flex items-center justify-center relative overflow-hidden"
-    >
-      <div class="absolute inset-0 opacity-20">
-        <div
-          class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full floating"
-        ></div>
-        <div
-          class="absolute top-1/3 right-20 w-16 h-16 bg-pink-200 rounded-full floating"
-          style="animation-delay: -1s"
-        ></div>
-        <div
-          class="absolute bottom-1/4 left-1/4 w-12 h-12 bg-purple-200 rounded-full floating"
-          style="animation-delay: -2s"
-        ></div>
+    <section id="home" class="min-h-screen hero-gradient flex items-center justify-center relative overflow-hidden"
+      aria-label="Welcome to NailsByCeline">
+      <div class="absolute inset-0 opacity-20" aria-hidden="true">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full floating"></div>
+        <div class="absolute top-1/3 right-20 w-16 h-16 bg-pink-200 rounded-full floating" style="animation-delay: -1s">
+        </div>
+        <div class="absolute bottom-1/4 left-1/4 w-12 h-12 bg-purple-200 rounded-full floating"
+          style="animation-delay: -2s"></div>
       </div>
 
       <div class="container mx-auto px-4 text-center relative z-10">
         <div class="max-w-4xl mx-auto fade-in">
-          <h1
-            class="text-5xl md:text-7xl font-bold text-white mb-6"
-            style="font-family: 'Playfair Display', serif"
-          >
+          <h1 class="text-5xl md:text-7xl font-bold text-white mb-6" style="font-family: 'Playfair Display', serif">
             <%= business.name %>
           </h1>
           <p class="text-xl md:text-2xl text-white/90 mb-8">
-            <%= business.tagline %>
+            Professional Nail Salon in <%= business.location.city %> - <%= business.tagline %>
           </p>
-          <div
-            class="flex flex-col md:flex-row gap-4 justify-center items-center mb-12"
-          >
-            <a
-              href="#services"
+          <p class="text-lg text-white/80 mb-8">
+            Expert nail care services including gel manicures, nail art, and French tips.
+            Over <%= business.reviews.reviewCount %> happy clients with <%= business.reviews.rating %>★ average rating.
+          </p>
+          <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-12">
+            <a href="#services"
               class="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all transform hover:scale-105"
-            >
+              aria-label="View our nail care services">
               View Services
             </a>
-            <a
-              href="mailto:<%= business.email %>"
+            <a href="mailto:<%= business.email %>"
               class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-purple-700 transition-all transform hover:scale-105"
-            >
-              <i class="fas fa-envelope mr-2"></i><%= business.email %>
+              aria-label="Contact us via email">
+              <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+              <%= business.email %>
             </a>
           </div>
 
           <!-- Hero Gallery Placeholders -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            <div
-              class="image-placeholder h-32 rounded-lg glass-effect"
-              data-image-key="hero1"
-              data-alt="Nail Art Showcase"
-            >
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto" role="img" aria-label="Gallery preview">
+            <div class="image-placeholder h-32 rounded-lg glass-effect" data-image-key="hero1"
+              data-alt="Professional nail art showcase featuring intricate designs">
               <div class="text-center">
-                <i class="fas fa-image text-2xl mb-2"></i>
+                <i class="fas fa-image text-2xl mb-2" aria-hidden="true"></i>
                 <p class="text-xs">Hero Image 1<br />Nail Art Showcase</p>
               </div>
             </div>
-            <div
-              class="image-placeholder h-32 rounded-lg glass-effect"
-              data-image-key="hero2"
-              data-alt="Manicure Process"
-            >
+            <div class="image-placeholder h-32 rounded-lg glass-effect" data-image-key="hero2"
+              data-alt="Manicure process at NailsByCeline salon">
               <div class="text-center">
-                <i class="fas fa-image text-2xl mb-2"></i>
+                <i class="fas fa-image text-2xl mb-2" aria-hidden="true"></i>
                 <p class="text-xs">Hero Image 2<br />Manicure Process</p>
               </div>
             </div>
-            <div
-              class="image-placeholder h-32 rounded-lg glass-effect"
-              data-image-key="hero3"
-              data-alt="Studio Interior"
-            >
+            <div class="image-placeholder h-32 rounded-lg glass-effect" data-image-key="hero3"
+              data-alt="Clean and modern nail salon interior in Växjö">
               <div class="text-center">
-                <i class="fas fa-image text-2xl mb-2"></i>
+                <i class="fas fa-image text-2xl mb-2" aria-hidden="true"></i>
                 <p class="text-xs">Hero Image 3<br />Studio Interior</p>
               </div>
             </div>
-            <div
-              class="image-placeholder h-32 rounded-lg glass-effect"
-              data-image-key="hero4"
-              data-alt="Happy Client"
-            >
+            <div class="image-placeholder h-32 rounded-lg glass-effect" data-image-key="hero4"
+              data-alt="Happy client showing beautiful nail results">
               <div class="text-center">
-                <i class="fas fa-image text-2xl mb-2"></i>
+                <i class="fas fa-image text-2xl mb-2" aria-hidden="true"></i>
                 <p class="text-xs">Hero Image 4<br />Happy Client</p>
               </div>
             </div>
@@ -272,100 +375,78 @@
     <section id="gallery" class="py-20 bg-white">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2
-            class="text-4xl md:text-5xl font-bold text-gray-800 mb-4"
-            style="font-family: 'Playfair Display', serif"
-          >
-            My Beautiful Work
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4" style="font-family: 'Playfair Display', serif">
+            Professional Nail Art Gallery
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover my stunning nail art creations and see why my clients love
-            my work
+            Discover our stunning nail art creations from our <%= business.location.city %> salon.
+              Each design is carefully crafted with attention to detail and quality.
           </p>
         </div>
 
         <!-- Featured Gallery Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          <div
-            class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
+          <article class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
             data-image-key="featured1"
-            data-alt="Elegant French Manicure with Gold Accents"
-          >
+            data-alt="Elegant French Manicure with Gold Accents - Professional nail art in Växjö">
             <div class="text-center">
-              <i class="fas fa-image text-4xl mb-4 text-pink-400"></i>
+              <i class="fas fa-image text-4xl mb-4 text-pink-400" aria-hidden="true"></i>
               <h3 class="text-lg font-semibold mb-2">Featured Work 1</h3>
-              <p class="text-sm">
-                Elegant French Manicure<br />with Gold Accents
-              </p>
+              <p class="text-sm">Elegant French Manicure<br />with Gold Accents</p>
             </div>
-          </div>
-          <div
-            class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
-            data-image-key="featured2"
-            data-alt="Colorful Nail Art with Geometric Patterns"
-          >
+          </article>
+          <article class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
+            data-image-key="featured2" data-alt="Colorful Nail Art with Geometric Patterns - Custom nail designs">
             <div class="text-center">
-              <i class="fas fa-image text-4xl mb-4 text-pink-400"></i>
+              <i class="fas fa-image text-4xl mb-4 text-pink-400" aria-hidden="true"></i>
               <h3 class="text-lg font-semibold mb-2">Featured Work 2</h3>
               <p class="text-sm">Colorful Nail Art<br />Geometric Patterns</p>
             </div>
-          </div>
-          <div
-            class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
-            data-image-key="featured3"
-            data-alt="Acrylic Extensions with Ombre Design"
-          >
+          </article>
+          <article class="image-placeholder h-80 rounded-xl hover:scale-105 transition-transform"
+            data-image-key="featured3" data-alt="Acrylic Extensions with Ombre Design - Long lasting nail extensions">
             <div class="text-center">
-              <i class="fas fa-image text-4xl mb-4 text-pink-400"></i>
+              <i class="fas fa-image text-4xl mb-4 text-pink-400" aria-hidden="true"></i>
               <h3 class="text-lg font-semibold mb-2">Featured Work 3</h3>
               <p class="text-sm">Acrylic Extensions<br />with Ombre Design</p>
             </div>
-          </div>
+          </article>
         </div>
 
         <!-- Gallery Grid -->
-        <div
-          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-        >
-          <% for(let i = 1; i <= 5; i++) { %>
-          <div
-            class="image-placeholder h-48 rounded-lg hover:scale-105 transition-transform"
-            data-image-key="gallery<%= i %>"
-            data-alt="Gallery Image <%= i %>"
-          >
-            <div class="text-center">
-              <i class="fas fa-image text-2xl mb-2 text-gray-400"></i>
-              <p class="text-xs">Gallery <%= i %></p>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" role="img"
+          aria-label="Nail art gallery collection">
+          <% for(let i=1; i <=5; i++) { %>
+            <div class="image-placeholder h-48 rounded-lg hover:scale-105 transition-transform"
+              data-image-key="gallery<%= i %>" data-alt="Professional nail art example <%= i %> from NailsByCeline">
+              <div class="text-center">
+                <i class="fas fa-image text-2xl mb-2 text-gray-400" aria-hidden="true"></i>
+                <p class="text-xs">Gallery <%= i %>
+                </p>
+              </div>
             </div>
-          </div>
-          <% } %>
+            <% } %>
         </div>
 
         <!-- Instagram Feed Placeholder -->
         <div class="mt-16 text-center">
-          <h3 class="text-2xl font-bold text-gray-800 mb-8">
-            Follow Me on Instagram
-          </h3>
+          <h3 class="text-2xl font-bold text-gray-800 mb-8">Follow Our Latest Work on Instagram</h3>
           <div class="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
-            <% for(let i = 1; i <= 6; i++) { %>
-            <div
-              class="image-placeholder h-32 rounded-lg hover:scale-105 transition-transform"
-              data-image-key="insta<%= i %>"
-              data-alt="Instagram Post <%= i %>"
-            >
-              <div class="text-center">
-                <i class="fab fa-instagram text-xl text-pink-500"></i>
-                <p class="text-xs mt-1">Post <%= i %></p>
+            <% for(let i=1; i <=6; i++) { %>
+              <div class="image-placeholder h-32 rounded-lg hover:scale-105 transition-transform"
+                data-image-key="insta<%= i %>" data-alt="Recent Instagram post <%= i %> showing nail art work">
+                <div class="text-center">
+                  <i class="fab fa-instagram text-xl text-pink-500" aria-hidden="true"></i>
+                  <p class="text-xs mt-1">Post <%= i %>
+                  </p>
+                </div>
               </div>
-            </div>
-            <% } %>
+              <% } %>
           </div>
-          <a
-            href="https://instagram.com/<%= business.socialMedia.instagram.replace('@', '') %>"
+          <a href="<%= business.socialMedia.instagramUrl %>"
             class="inline-block mt-8 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-105"
-          >
-            <i class="fab fa-instagram mr-2"></i>Follow <%=
-            business.socialMedia.instagram %>
+            target="_blank" rel="noopener" aria-label="Follow us on Instagram for daily nail art inspiration">
+            <i class="fab fa-instagram mr-2" aria-hidden="true"></i>Follow <%= business.socialMedia.instagram %>
           </a>
         </div>
       </div>
@@ -375,146 +456,164 @@
     <section id="services" class="py-20 elegant-gradient">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2
-            class="text-4xl md:text-5xl font-bold text-gray-800 mb-4"
-            style="font-family: 'Playfair Display', serif"
-          >
-            My Services
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4" style="font-family: 'Playfair Display', serif">
+            Professional Nail Care Services in <%= business.location.city %>
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Professional nail care services tailored to your style and
-            preferences
+            Expert nail care services tailored to your style and preferences.
+            All treatments use premium products and follow strict hygiene standards.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <% business.services.forEach((service, index) => { %>
-          <div
-            class="service-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl"
-          >
-            <div
-              class="image-placeholder h-48 rounded-xl mb-6 hover:scale-105 transition-transform"
-              data-image-key="service<%= index + 1 %>"
-              data-alt="<%= service.name %> Service"
-            >
-              <div class="text-center">
-                <i class="fas fa-hand-sparkles text-3xl mb-3 text-pink-500"></i>
-                <p class="text-sm font-medium">
-                  <%= service.name %><br />Service Image
+          <% business.services.forEach((service, index)=> { %>
+            <article class="service-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl"
+              id="<%= service.name.toLowerCase().replace(/\s+/g, '-') %>">
+              <div class="image-placeholder h-48 rounded-xl mb-6 hover:scale-105 transition-transform"
+                data-image-key="service<%= index + 1 %>"
+                data-alt="<%= service.name %> service at NailsByCeline - <%= service.description %>">
+                <div class="text-center">
+                  <i class="fas fa-hand-sparkles text-3xl mb-3 text-pink-500" aria-hidden="true"></i>
+                  <p class="text-sm font-medium">
+                    <%= service.name %><br />Service Image
+                  </p>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-3">
+                <%= service.name %>
+              </h3>
+              <p class="text-gray-600 mb-4">
+                <%= service.description %>
+              </p>
+              <div class="mb-4">
+                <p class="text-sm text-gray-500 mb-2">
+                  <i class="fas fa-clock mr-2" aria-hidden="true"></i>Duration: <%= service.duration %>
+                </p>
+                <p class="text-sm text-gray-500">
+                  <i class="fas fa-tag mr-2" aria-hidden="true"></i>Keywords: <%= service.keywords %>
                 </p>
               </div>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-3">
-              <%= service.name %>
-            </h3>
-            <p class="text-gray-600 mb-4"><%= service.description %></p>
-            <div class="flex justify-between items-center">
-              <span class="text-2xl font-bold text-pink-600"
-                ><%= service.price %></span
-              >
-              <a
-                href="tel:<%= business.phone %>"
-                class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition-colors"
-              >
-                Book Now
-              </a>
-            </div>
-          </div>
-          <% }) %>
+              <div class="flex justify-between items-center">
+                <span class="text-2xl font-bold text-pink-600">
+                  <%= service.price %>
+                </span>
+                <a href="tel:<%= business.phone %>"
+                  class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition-colors"
+                  aria-label="Call to book <%= service.name %> appointment">
+                  Book Now
+                </a>
+              </div>
+            </article>
+            <% }) %>
         </div>
 
         <!-- Before/After Section -->
         <div class="mt-20">
-          <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">
-            Before & After Transformations
-          </h3>
+          <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">Before & After Transformations</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <% for(let i = 1; i <= 3; i++) { %>
-            <div class="bg-white rounded-2xl p-6 shadow-lg">
-              <div class="grid grid-cols-2 gap-4">
-                <div class="text-center">
-                  <h4 class="text-sm font-semibold text-gray-600 mb-2">
-                    BEFORE
-                  </h4>
-                  <div
-                    class="image-placeholder h-40 rounded-lg"
-                    data-image-key="before<%= i %>"
-                    data-alt="Before Transformation <%= i %>"
-                  >
-                    <div class="text-center">
-                      <i class="fas fa-image text-xl mb-2"></i>
-                      <p class="text-xs">Before <%= i %></p>
+            <% for(let i=1; i <=3; i++) { %>
+              <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="text-center">
+                    <h4 class="text-sm font-semibold text-gray-600 mb-2">BEFORE</h4>
+                    <div class="image-placeholder h-40 rounded-lg" data-image-key="before<%= i %>"
+                      data-alt="Before Transformation <%= i %>">
+                      <div class="text-center">
+                        <i class="fas fa-image text-xl mb-2"></i>
+                        <p class="text-xs">Before <%= i %>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <h4 class="text-sm font-semibold text-gray-600 mb-2">AFTER</h4>
+                    <div class="image-placeholder h-40 rounded-lg" data-image-key="after<%= i %>"
+                      data-alt="After Transformation <%= i %>">
+                      <div class="text-center">
+                        <i class="fas fa-image text-xl mb-2"></i>
+                        <p class="text-xs">After <%= i %>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="text-center">
-                  <h4 class="text-sm font-semibold text-gray-600 mb-2">
-                    AFTER
-                  </h4>
-                  <div
-                    class="image-placeholder h-40 rounded-lg"
-                    data-image-key="after<%= i %>"
-                    data-alt="After Transformation <%= i %>"
-                  >
-                    <div class="text-center">
-                      <i class="fas fa-image text-xl mb-2"></i>
-                      <p class="text-xs">After <%= i %></p>
-                    </div>
-                  </div>
-                </div>
+                <p class="text-center text-sm text-gray-600 mt-3">Transformation <%= i %>
+                </p>
               </div>
-              <p class="text-center text-sm text-gray-600 mt-3">
-                Transformation <%= i %>
+              <% } %>
+          </div>
+        </div>
+
+        <!-- Local SEO Section -->
+        <div class="mt-16 bg-white rounded-2xl p-8 shadow-lg text-center">
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">
+            <%= business.location.city %>'s Premier Nail Salon
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Conveniently located in <%= business.location.city %>, <%= business.location.region %>, Sweden.
+                We serve clients throughout the greater <%= business.location.city %> area with professional
+                  nail care services that exceed expectations.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div>
+              <i class="fas fa-map-marker-alt text-3xl text-pink-500 mb-2" aria-hidden="true"></i>
+              <h4 class="font-semibold text-gray-800">Location</h4>
+              <p class="text-gray-600 text-sm">
+                <%= business.location.address %>
               </p>
             </div>
-            <% } %>
+            <div>
+              <i class="fas fa-star text-3xl text-yellow-500 mb-2" aria-hidden="true"></i>
+              <h4 class="font-semibold text-gray-800">Rating</h4>
+              <p class="text-gray-600 text-sm">
+                <%= business.reviews.rating %>★ from <%= business.reviews.reviewCount %>+ reviews
+              </p>
+            </div>
+            <div>
+              <i class="fas fa-award text-3xl text-purple-500 mb-2" aria-hidden="true"></i>
+              <h4 class="font-semibold text-gray-800">Experience</h4>
+              <p class="text-gray-600 text-sm">Professional nail technician with years of expertise</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-white" aria-label="Customer testimonials">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2
-            class="text-4xl font-bold text-gray-800 mb-4"
-            style="font-family: 'Playfair Display', serif"
-          >
-            What My Clients Say
+          <h2 class="text-4xl font-bold text-gray-800 mb-4" style="font-family: 'Playfair Display', serif">
+            What Our <%= business.location.city %> Clients Say
           </h2>
+          <p class="text-gray-600">Real reviews from satisfied customers</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <% for(let i = 1; i <= 3; i++) { %>
-          <div
-            class="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow"
-          >
-            <div class="flex items-center mb-4">
-              <div
-                class="image-placeholder w-16 h-16 rounded-full mr-4"
-                data-image-key="client<%= i %>"
-                data-alt="Client <%= i %> Photo"
-              >
-                <i class="fas fa-user text-gray-400"></i>
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-800">Client <%= i %></h4>
-                <div class="flex text-yellow-400">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
+          <% for(let i=1; i <=3; i++) { %>
+            <article class="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow">
+              <div class="flex items-center mb-4">
+                <div class="image-placeholder w-16 h-16 rounded-full mr-4" data-image-key="client<%= i %>"
+                  data-alt="Satisfied client <%= i %> from <%= business.name %>">
+                  <i class="fas fa-user text-gray-400" aria-hidden="true"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-800">Verified Client</h4>
+                  <div class="flex text-yellow-400" aria-label="5 star rating">
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                  </div>
                 </div>
               </div>
-            </div>
-            <p class="text-gray-600 italic">
-              "Amazing service and beautiful results! I always leave feeling
-              pampered and confident. Highly recommend!"
-            </p>
-          </div>
-          <% } %>
+              <blockquote class="text-gray-600 italic">
+                "Amazing service and beautiful results! I always leave feeling
+                pampered and confident. Best nail salon in <%= business.location.city %>!"
+              </blockquote>
+            </article>
+            <% } %>
         </div>
       </div>
     </section>
@@ -524,15 +623,12 @@
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <div class="text-center mb-16">
-            <h2
-              class="text-4xl md:text-5xl font-bold text-white mb-4"
-              style="font-family: 'Playfair Display', serif"
-            >
-              Get In Touch
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4" style="font-family: 'Playfair Display', serif">
+              Book Your Appointment in <%= business.location.city %>
             </h2>
             <p class="text-xl text-white/90 max-w-2xl mx-auto">
-              Ready to pamper yourself? Contact me today to book your
-              appointment
+              Ready to pamper yourself? Contact <%= business.name %> today to book your
+                professional nail care appointment in <%= business.location.city %>.
             </p>
           </div>
 
@@ -540,41 +636,51 @@
             <!-- Contact Info -->
             <div class="space-y-8">
               <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8">
-                <h3 class="text-2xl font-bold text-white mb-6">
-                  Contact Information
-                </h3>
+                <h3 class="text-2xl font-bold text-white mb-6">Contact Information</h3>
 
                 <div class="space-y-4">
                   <div class="flex items-center text-white">
-                    <i class="fas fa-phone text-xl mr-4"></i>
+                    <i class="fas fa-phone text-xl mr-4" aria-hidden="true"></i>
                     <div>
                       <p class="font-semibold">Phone</p>
-                      <a
-                        href="tel:<%= business.phone %>"
-                        class="hover:text-pink-200 transition-colors"
-                        ><%= business.phone %></a
-                      >
+                      <a href="tel:<%= business.phone %>" class="hover:text-pink-200 transition-colors"
+                        aria-label="Call NailsByCeline">
+                        <%= business.phone %>
+                      </a>
                     </div>
                   </div>
 
                   <div class="flex items-center text-white">
-                    <i class="fas fa-envelope text-xl mr-4"></i>
+                    <i class="fas fa-envelope text-xl mr-4" aria-hidden="true"></i>
                     <div>
                       <p class="font-semibold">Email</p>
-                      <a
-                        href="mailto:<%= business.email %>"
-                        class="hover:text-pink-200 transition-colors"
-                        ><%= business.email %></a
-                      >
+                      <a href="mailto:<%= business.email %>" class="hover:text-pink-200 transition-colors"
+                        aria-label="Email NailsByCeline">
+                        <%= business.email %>
+                      </a>
                     </div>
                   </div>
 
                   <div class="flex items-start text-white">
-                    <i class="fas fa-clock text-xl mr-4 mt-1"></i>
+                    <i class="fas fa-map-marker-alt text-xl mr-4 mt-1" aria-hidden="true"></i>
+                    <div>
+                      <p class="font-semibold">Location</p>
+                      <p>
+                        <%= business.location.address %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start text-white">
+                    <i class="fas fa-clock text-xl mr-4 mt-1" aria-hidden="true"></i>
                     <div>
                       <p class="font-semibold">Hours</p>
-                      <p><%= business.hours.weekdays %></p>
-                      <p><%= business.hours.weekend %></p>
+                      <p>
+                        <%= business.hours.weekdays %>
+                      </p>
+                      <p>
+                        <%= business.hours.weekend %>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -582,94 +688,98 @@
 
               <!-- Social Media -->
               <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8">
-                <h3 class="text-2xl font-bold text-white mb-6">Follow Me</h3>
+                <h3 class="text-2xl font-bold text-white mb-6">Follow Our Work</h3>
                 <div class="flex space-x-4">
-                  <a
-                    href="https://instagram.com/<%= business.socialMedia.instagram.replace('@', '') %>"
-                    class="bg-white/20 hover:bg-white/30 p-3 rounded-full text-white transition-colors"
-                  >
-                    <i class="fab fa-instagram text-xl"></i>
+                  <a href="<%= business.socialMedia.instagramUrl %>"
+                    class="bg-white/20 hover:bg-white/30 p-3 rounded-full text-white transition-colors" target="_blank"
+                    rel="noopener" aria-label="Follow NailsByCeline on Instagram">
+                    <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
                   </a>
-                  <a
-                    href="https://tiktok.com/<%= business.socialMedia.tiktok.replace('@', '') %>"
-                    class="bg-white/20 hover:bg-white/30 p-3 rounded-full text-white transition-colors"
-                  >
-                    <i class="fab fa-tiktok text-xl"></i>
+                  <a href="<%= business.socialMedia.tiktokUrl %>"
+                    class="bg-white/20 hover:bg-white/30 p-3 rounded-full text-white transition-colors" target="_blank"
+                    rel="noopener" aria-label="Follow NailsByCeline on TikTok">
+                    <i class="fab fa-tiktok text-xl" aria-hidden="true"></i>
                   </a>
                 </div>
 
                 <!-- Social Media Preview -->
                 <div class="mt-6 grid grid-cols-3 gap-2">
-                  <% for(let i = 1; i <= 6; i++) { %>
-                  <div
-                    class="image-placeholder h-16 rounded-lg"
-                    data-image-key="social<%= i %>"
-                    data-alt="Social Media Post <%= i %>"
-                  >
-                    <i class="fab fa-instagram text-sm text-pink-300"></i>
-                  </div>
-                  <% } %>
+                  <% for(let i=1; i <=6; i++) { %>
+                    <div class="image-placeholder h-16 rounded-lg" data-image-key="social<%= i %>"
+                      data-alt="Social Media Post <%= i %>">
+                      <i class="fab fa-instagram text-sm text-pink-300" aria-hidden="true"></i>
+                    </div>
+                    <% } %>
                 </div>
               </div>
             </div>
 
             <!-- Booking Form -->
             <div class="bg-white rounded-2xl p-8 shadow-2xl">
-              <h3 class="text-2xl font-bold text-gray-800 mb-6">
-                Book Your Appointment
-              </h3>
-              <form class="space-y-4">
+              <h3 class="text-2xl font-bold text-gray-800 mb-6">Book Your Appointment</h3>
+              <form class="space-y-4" aria-label="Appointment booking form">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
+                  <label class="block">
+                    <span class="sr-only">First Name</span>
+                    <input type="text" placeholder="First Name" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      aria-label="Enter your first name" />
+                  </label>
+                  <label class="block">
+                    <span class="sr-only">Last Name</span>
+                    <input type="text" placeholder="Last Name" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      aria-label="Enter your last name" />
+                  </label>
                 </div>
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone Number"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                />
-                <select
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                >
-                  <option value="">Select a Service</option>
-                  <% business.services.forEach(service => { %>
-                  <option value="<%= service.name %>">
-                    <%= service.name %> - <%= service.price %>
-                  </option>
-                  <% }) %>
-                </select>
+                <label class="block">
+                  <span class="sr-only">Email Address</span>
+                  <input type="email" placeholder="Email Address" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    aria-label="Enter your email address" />
+                </label>
+                <label class="block">
+                  <span class="sr-only">Phone Number</span>
+                  <input type="tel" placeholder="Phone Number" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    aria-label="Enter your phone number" />
+                </label>
+                <label class="block">
+                  <span class="sr-only">Select a Service</span>
+                  <select required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    aria-label="Choose your preferred service">
+                    <option value="">Select a Service</option>
+                    <% business.services.forEach(service=> { %>
+                      <option value="<%= service.name %>">
+                        <%= service.name %> - <%= service.price %>
+                      </option>
+                      <% }) %>
+                  </select>
+                </label>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="date"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
-                  <input
-                    type="time"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  />
+                  <label class="block">
+                    <span class="sr-only">Preferred Date</span>
+                    <input type="date" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      aria-label="Choose your preferred date" />
+                  </label>
+                  <label class="block">
+                    <span class="sr-only">Preferred Time</span>
+                    <input type="time" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      aria-label="Choose your preferred time" />
+                  </label>
                 </div>
-                <textarea
-                  placeholder="Special requests or notes"
-                  rows="4"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                ></textarea>
-                <button
-                  type="submit"
+                <label class="block">
+                  <span class="sr-only">Special requests or notes</span>
+                  <textarea placeholder="Special requests or notes" rows="4"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    aria-label="Enter any special requests or notes"></textarea>
+                </label>
+                <button type="submit"
                   class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-105"
-                >
+                  aria-label="Submit booking request">
                   Book Appointment
                 </button>
               </form>
@@ -678,446 +788,446 @@
         </div>
       </div>
     </section>
+  </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-16">
-      <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <!-- Business Info -->
-          <div>
-            <div class="flex items-center space-x-2 mb-6">
-              <i class="fas fa-gem text-2xl text-pink-500"></i>
-              <span
-                class="text-xl font-bold"
-                style="font-family: 'Playfair Display', serif"
-              >
-                <%= business.name %>
-              </span>
-            </div>
-            <p class="text-gray-300 mb-4"><%= business.tagline %></p>
-            <p class="text-gray-400 text-sm leading-relaxed">
-              Professional nail care services in a luxurious and relaxing
-              environment. Your beauty and satisfaction is my top priority.
-            </p>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16" role="contentinfo">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <!-- Business Info -->
+        <div>
+          <div class="flex items-center space-x-2 mb-6">
+            <i class="fas fa-gem text-2xl text-pink-500" aria-hidden="true"></i>
+            <span class="text-xl font-bold" style="font-family: 'Playfair Display', serif">
+              <%= business.name %>
+            </span>
           </div>
+          <p class="text-gray-300 mb-4">
+            <%= business.tagline %>
+          </p>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Professional nail care services in <%= business.location.city %>, Sweden.
+              Your beauty and satisfaction is our top priority.
+          </p>
+        </div>
 
-          <!-- Quick Links -->
-          <div>
-            <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+          <nav aria-label="Footer navigation">
             <ul class="space-y-3">
-              <li>
-                <a
-                  href="#home"
-                  class="text-gray-300 hover:text-pink-400 transition-colors"
-                  >Home</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#gallery"
-                  class="text-gray-300 hover:text-pink-400 transition-colors"
-                  >Gallery</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#services"
-                  class="text-gray-300 hover:text-pink-400 transition-colors"
-                  >Services</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  class="text-gray-300 hover:text-pink-400 transition-colors"
-                  >Contact</a
-                >
-              </li>
-              <li>
-                <a
-                  href="tel:<%= business.phone %>"
-                  class="text-gray-300 hover:text-pink-400 transition-colors"
-                  >Book Now</a
-                >
-              </li>
+              <li><a href="#home" class="text-gray-300 hover:text-pink-400 transition-colors">Home</a></li>
+              <li><a href="#gallery" class="text-gray-300 hover:text-pink-400 transition-colors">Gallery</a></li>
+              <li><a href="#services" class="text-gray-300 hover:text-pink-400 transition-colors">Services</a></li>
+              <li><a href="#contact" class="text-gray-300 hover:text-pink-400 transition-colors">Contact</a></li>
+              <li><a href="tel:<%= business.phone %>" class="text-gray-300 hover:text-pink-400 transition-colors">Book
+                  Now</a></li>
             </ul>
-          </div>
+          </nav>
+        </div>
 
-          <!-- Services -->
-          <div>
-            <h3 class="text-lg font-semibold mb-6">Popular Services</h3>
-            <ul class="space-y-3">
-              <% business.services.slice(0, 5).forEach(service => { %>
-              <li
-                class="text-gray-300 hover:text-pink-400 transition-colors cursor-pointer"
-              >
+        <!-- Services -->
+        <div>
+          <h3 class="text-lg font-semibold mb-6">Popular Services</h3>
+          <ul class="space-y-3">
+            <% business.services.slice(0, 5).forEach(service=> { %>
+              <li class="text-gray-300 hover:text-pink-400 transition-colors cursor-pointer">
                 <%= service.name %>
               </li>
               <% }) %>
-            </ul>
-          </div>
-
-          <!-- Contact Info -->
-          <div>
-            <h3 class="text-lg font-semibold mb-6">Contact Info</h3>
-            <div class="space-y-4">
-              <div class="flex items-center text-gray-300">
-                <i class="fas fa-phone text-pink-500 mr-3"></i>
-                <a
-                  href="tel:<%= business.phone %>"
-                  class="text-sm hover:text-pink-400 transition-colors"
-                >
-                  <%= business.phone %>
-                </a>
-              </div>
-              <div class="flex items-center text-gray-300">
-                <i class="fas fa-envelope text-pink-500 mr-3"></i>
-                <a
-                  href="mailto:<%= business.email %>"
-                  class="text-sm hover:text-pink-400 transition-colors"
-                >
-                  <%= business.email %>
-                </a>
-              </div>
-            </div>
-
-            <!-- Business Hours -->
-            <div class="mt-6">
-              <h4 class="text-sm font-semibold text-pink-400 mb-2">
-                Business Hours
-              </h4>
-              <p class="text-gray-400 text-xs">
-                <%= business.hours.weekdays %>
-              </p>
-              <p class="text-gray-400 text-xs"><%= business.hours.weekend %></p>
-            </div>
-          </div>
+          </ul>
         </div>
 
-        <!-- Social Media & Bottom Bar -->
-        <div class="border-t border-gray-800 pt-8">
-          <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="flex space-x-6 mb-4 md:mb-0">
-              <a
-                href="https://instagram.com/<%= business.socialMedia.instagram.replace('@', '') %>"
-                class="text-gray-400 hover:text-pink-400 transition-colors"
-              >
-                <i class="fab fa-instagram text-xl"></i>
-              </a>
-              <a
-                href="https://www.tiktok.com/<%= business.socialMedia.tiktok.replace('@', '') %>"
-                class="text-gray-400 hover:text-pink-400 transition-colors"
-              >
-                <i class="fab fa-tiktok text-xl"></i>
-              </a>
-              <a
-                href="https://google.com/maps"
-                class="text-gray-400 hover:text-pink-400 transition-colors"
-              >
-                <i class="fab fa-google text-xl"></i>
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-lg font-semibold mb-6">Contact Info</h3>
+          <div class="space-y-4">
+            <div class="flex items-center text-gray-300">
+              <i class="fas fa-phone text-pink-500 mr-3" aria-hidden="true"></i>
+              <a href="tel:<%= business.phone %>" class="text-sm hover:text-pink-400 transition-colors">
+                <%= business.phone %>
               </a>
             </div>
-
-            <div
-              class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6"
-            >
-              <div class="flex items-center space-x-4">
-                <span class="text-yellow-400 text-sm">★★★★★</span>
-                <span class="text-gray-400 text-xs">5.0 • 200+ Reviews</span>
-              </div>
-              <a
-                href="tel:<%= business.phone %>"
-                class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors"
-              >
-                <i class="fas fa-phone mr-2"></i>Call Now
+            <div class="flex items-center text-gray-300">
+              <i class="fas fa-envelope text-pink-500 mr-3" aria-hidden="true"></i>
+              <a href="mailto:<%= business.email %>" class="text-sm hover:text-pink-400 transition-colors">
+                <%= business.email %>
               </a>
+            </div>
+            <div class="flex items-center text-gray-300">
+              <i class="fas fa-map-marker-alt text-pink-500 mr-3" aria-hidden="true"></i>
+              <span class="text-sm">
+                <%= business.location.city %>, Sweden
+              </span>
             </div>
           </div>
 
-          <div class="mt-8 text-center">
-            <p class="text-gray-400 text-sm">
-              © <%= new Date().getFullYear() %> <%= business.name %>. All rights
-              reserved.
-              <span class="text-gray-500">|</span>
-              <a
-                href="/privacy-policy"
-                class="hover:text-pink-400 transition-colors"
-                >Privacy Policy</a
-              >
-              <span class="text-gray-500">|</span>
-              <a
-                href="/terms-of-service"
-                class="hover:text-pink-400 transition-colors"
-                >Terms of Service</a
-              >
+          <!-- Business Hours -->
+          <div class="mt-6">
+            <h4 class="text-sm font-semibold text-pink-400 mb-2">Business Hours</h4>
+            <p class="text-gray-400 text-xs">
+              <%= business.hours.weekdays %>
             </p>
-            <p class="text-gray-500 text-xs mt-2">
-              Professional nail salon serving Style City and surrounding areas
+            <p class="text-gray-400 text-xs">
+              <%= business.hours.weekend %>
             </p>
           </div>
         </div>
       </div>
-    </footer>
 
-    <!-- Floating Book Now Button (Mobile) -->
-    <div class="fixed bottom-6 right-6 z-50 md:hidden">
-      <a
-        href="tel:<%= business.phone %>"
-        class="bg-pink-600 hover:bg-pink-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
-      >
-        <i class="fas fa-phone text-xl"></i>
-      </a>
+      <!-- Social Media & Bottom Bar -->
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex space-x-6 mb-4 md:mb-0">
+            <a href="<%= business.socialMedia.instagramUrl %>"
+              class="text-gray-400 hover:text-pink-400 transition-colors" target="_blank" rel="noopener"
+              aria-label="Follow us on Instagram">
+              <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
+            </a>
+            <a href="<%= business.socialMedia.tiktokUrl %>" class="text-gray-400 hover:text-pink-400 transition-colors"
+              target="_blank" rel="noopener" aria-label="Follow us on TikTok">
+              <i class="fab fa-tiktok text-xl" aria-hidden="true"></i>
+            </a>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
+            <div class="flex items-center space-x-4">
+              <div class="text-yellow-400 text-sm" aria-label="5 star rating">★★★★★</div>
+              <span class="text-gray-400 text-xs">
+                <%= business.reviews.rating %> • <%= business.reviews.reviewCount %>+ Reviews
+              </span>
+            </div>
+            <a href="tel:<%= business.phone %>"
+              class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors"
+              aria-label="Call to book appointment">
+              <i class="fas fa-phone mr-2" aria-hidden="true"></i>Call Now
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <p class="text-gray-400 text-sm">
+            © <%= new Date().getFullYear() %>
+              <%= business.name %>. All rights reserved.
+                <span class="text-gray-500">|</span>
+                <a href="/privacy-policy" class="hover:text-pink-400 transition-colors">Privacy Policy</a>
+                <span class="text-gray-500">|</span>
+                <a href="/terms-of-service" class="hover:text-pink-400 transition-colors">Terms of Service</a>
+          </p>
+          <p class="text-gray-500 text-xs mt-2">
+            Professional nail salon serving <%= business.location.city %> and surrounding areas in Sweden
+          </p>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <!-- Scroll to Top Button -->
-    <button
-      id="scrollToTop"
-      class="fixed bottom-6 left-6 bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50"
-    >
-      <i class="fas fa-chevron-up"></i>
-    </button>
+  <!-- Floating Book Now Button (Mobile) -->
+  <div class="fixed bottom-6 right-6 z-50 md:hidden">
+    <a href="tel:<%= business.phone %>"
+      class="bg-pink-600 hover:bg-pink-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+      aria-label="Call to book appointment">
+      <i class="fas fa-phone text-xl" aria-hidden="true"></i>
+    </a>
+  </div>
 
-    <!-- Image Loading Script -->
-    <script>
-      // Image loading with fallback functionality
-      class ImageHandler {
-        constructor() {
-          this.init();
-        }
+  <!-- Scroll to Top Button -->
+  <button id="scrollToTop"
+    class="fixed bottom-6 left-6 bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 z-50"
+    aria-label="Scroll to top of page">
+    <i class="fas fa-chevron-up" aria-hidden="true"></i>
+  </button>
 
-        init() {
-          // Wait for DOM to be ready
-          if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", () =>
-              this.setupImages()
-            );
-          } else {
-            this.setupImages();
-          }
-        }
-
-        setupImages() {
-          // Find all image placeholders
-          const placeholders = document.querySelectorAll(
-            ".image-placeholder[data-image]"
-          );
-
-          placeholders.forEach((placeholder) => {
-            this.loadImageWithFallback(placeholder);
-          });
-        }
-
-        loadImageWithFallback(placeholder) {
-          const imagePath = placeholder.getAttribute("data-image");
-          const altText = placeholder.getAttribute("data-alt") || "Image";
-
-          // Create image element
-          const img = new Image();
-
-          // Store original placeholder content
-          const originalContent = placeholder.innerHTML;
-
-          // Add loading state
-          placeholder.classList.add("loading");
-
-          img.onload = () => {
-            // Image loaded successfully
-            this.showImage(placeholder, img, altText);
-          };
-
-          img.onerror = () => {
-            // Image failed to load, keep placeholder
-            this.showFallback(placeholder, originalContent);
-          };
-
-          // Start loading the image
-          img.src = imagePath;
-        }
-
-        showImage(placeholder, img, altText) {
-          // Remove loading state
-          placeholder.classList.remove("loading");
-
-          // Create image container
-          const imageContainer = document.createElement("div");
-          imageContainer.className = "absolute inset-0 w-full h-full";
-
-          // Create actual image element
-          const imageElement = document.createElement("img");
-          imageElement.src = img.src;
-          imageElement.alt = altText;
-          imageElement.className = "w-full h-full object-cover rounded-inherit";
-
-          // Add fade-in animation
-          imageElement.style.opacity = "0";
-          imageElement.style.transition = "opacity 0.3s ease-in-out";
-
-          imageContainer.appendChild(imageElement);
-
-          // Make placeholder relative for absolute positioning
-          placeholder.style.position = "relative";
-          placeholder.appendChild(imageContainer);
-
-          // Fade in the image
-          setTimeout(() => {
-            imageElement.style.opacity = "1";
-          }, 50);
-
-          // Add hover effect to show placeholder content on hover (optional)
-          this.addHoverEffect(placeholder, imageContainer);
-        }
-
-        showFallback(placeholder, originalContent) {
-          // Remove loading state and show original placeholder
-          placeholder.classList.remove("loading");
-          placeholder.innerHTML = originalContent;
-
-          // Add error styling
-          placeholder.classList.add("image-error");
-        }
-
-        addHoverEffect(placeholder, imageContainer) {
-          // Show placeholder content on hover (optional feature)
-          placeholder.addEventListener("mouseenter", () => {
-            const overlay = document.createElement("div");
-            overlay.className =
-              "absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-sm opacity-0 transition-opacity duration-300 rounded-inherit";
-            overlay.innerHTML = '<i class="fas fa-eye text-xl"></i>';
-
-            imageContainer.appendChild(overlay);
-
-            setTimeout(() => {
-              overlay.style.opacity = "1";
-            }, 10);
-          });
-
-          placeholder.addEventListener("mouseleave", () => {
-            const overlay = imageContainer.querySelector(".bg-black");
-            if (overlay) {
-              overlay.remove();
-            }
-          });
-        }
+  <!-- Scripts -->
+  <script>
+    // Enhanced Image loading with SEO optimizations
+    class SEOImageHandler {
+      constructor() {
+        this.init();
       }
 
-      // Image path mapping for easy management
-      const IMAGE_PATHS = {
-        // Hero section images
-        hero1: "/images/hero-nail-art-1.jpg",
-        hero2: "/images/hero-manicure-2.jpg",
-        hero3: "/images/hero-studio-3.jpg",
-        hero4: "/images/hero-client-4.jpg",
-
-        // Featured gallery images
-        featured1: "/images/featured-french-gold.jpg",
-        featured2: "/images/featured-colorful-art.jpg",
-        featured3: "/images/featured-acrylic-ombre.jpg",
-
-        // Gallery images
-        gallery1: "/images/gallery-1.jpg",
-        gallery2: "/images/gallery-2.jpg",
-        gallery3: "/images/gallery-3.jpg",
-        gallery4: "/images/gallery-4.jpg",
-        gallery5: "/images/gallery-5.jpg",
-
-        // Instagram feed
-        insta1: "/images/instagram-1.jpg",
-        insta2: "/images/instagram-2.jpg",
-        insta3: "/images/instagram-3.jpg",
-        insta4: "/images/instagram-4.jpg",
-        insta5: "/images/instagram-5.jpg",
-        insta6: "/images/instagram-6.jpg",
-
-        // Service images
-        service1: "/images/service-classic-manicure.jpg",
-        service2: "/images/service-gel-manicure.jpg",
-        service3: "/images/service-nail-art.jpg",
-        service4: "/images/service-french-manicure.jpg",
-
-        // Before/after images
-        before1: "/images/before-1.jpg",
-        after1: "/images/after-1.jpg",
-        before2: "/images/before-2.jpg",
-        after2: "/images/after-2.jpg",
-        before3: "/images/before-3.jpg",
-        after3: "/images/after-3.jpg",
-
-        // Client photos
-        client1: "/images/client-1.jpg",
-        client2: "/images/client-2.jpg",
-        client3: "/images/client-3.jpg",
-
-        // Social media preview
-        social1: "/images/social-1.jpg",
-        social2: "/images/social-2.jpg",
-        social3: "/images/social-3.jpg",
-        social4: "/images/social-4.jpg",
-        social5: "/images/social-5.jpg",
-        social6: "/images/social-6.jpg",
-      };
-
-      // Auto-assign images to placeholders based on data-image-key
-      function autoAssignImages() {
-        const placeholders = document.querySelectorAll(
-          ".image-placeholder[data-image-key]"
-        );
-
-        placeholders.forEach((placeholder) => {
-          const key = placeholder.getAttribute("data-image-key");
-          if (IMAGE_PATHS[key]) {
-            placeholder.setAttribute("data-image", IMAGE_PATHS[key]);
-          }
-        });
-      }
-
-      // Initialize when DOM is ready
-      document.addEventListener("DOMContentLoaded", () => {
-        autoAssignImages();
-        new ImageHandler();
-      });
-
-      // Smooth scrolling for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
-        });
-      });
-
-      // Scroll to top button functionality
-      const scrollToTopBtn = document.getElementById("scrollToTop");
-
-      window.addEventListener("scroll", () => {
-        if (window.pageYOffset > 300) {
-          scrollToTopBtn.classList.remove("opacity-0", "invisible");
+      init() {
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", () => this.setupImages());
         } else {
-          scrollToTopBtn.classList.add("opacity-0", "invisible");
+          this.setupImages();
         }
-      });
+      }
 
-      scrollToTopBtn.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
-
-      // Form submission handling
-      const bookingForm = document.querySelector("form");
-      if (bookingForm) {
-        bookingForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          alert(
-            "Thank you for your booking request! We will contact you shortly to confirm your appointment."
-          );
+      setupImages() {
+        const placeholders = document.querySelectorAll(".image-placeholder[data-image]");
+        placeholders.forEach((placeholder) => {
+          this.loadImageWithSEO(placeholder);
         });
       }
-    </script>
-  </body>
+
+      loadImageWithSEO(placeholder) {
+        const imagePath = placeholder.getAttribute("data-image");
+        const altText = placeholder.getAttribute("data-alt") || "Professional nail service image";
+
+        const img = new Image();
+        const originalContent = placeholder.innerHTML;
+
+        placeholder.classList.add("loading");
+        img.loading = "lazy";
+
+        img.onload = () => {
+          this.showImageWithSEO(placeholder, img, altText);
+        };
+
+        img.onerror = () => {
+          this.showFallback(placeholder, originalContent);
+        };
+
+        img.src = imagePath;
+        img.alt = altText;
+      }
+
+      showImageWithSEO(placeholder, img, altText) {
+        placeholder.classList.remove("loading");
+
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "absolute inset-0 w-full h-full";
+
+        const imageElement = document.createElement("img");
+        imageElement.src = img.src;
+        imageElement.alt = altText;
+        imageElement.className = "w-full h-full object-cover rounded-inherit";
+        imageElement.loading = "lazy";
+        imageElement.style.opacity = "0";
+        imageElement.style.transition = "opacity 0.3s ease-in-out";
+
+        imageContainer.appendChild(imageElement);
+        placeholder.style.position = "relative";
+        placeholder.appendChild(imageContainer);
+
+        setTimeout(() => {
+          imageElement.style.opacity = "1";
+          imageElement.classList.add("loaded");
+        }, 50);
+
+        this.addSEOOverlay(placeholder, imageContainer, altText);
+      }
+
+      addSEOOverlay(placeholder, imageContainer, altText) {
+        placeholder.addEventListener("mouseenter", () => {
+          const overlay = document.createElement("div");
+          overlay.className = "absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-sm opacity-0 transition-opacity duration-300 rounded-inherit";
+          overlay.innerHTML = `<div class="text-center p-2"><i class="fas fa-eye text-xl mb-2"></i><br>${altText}</div>`;
+
+          imageContainer.appendChild(overlay);
+
+          setTimeout(() => {
+            overlay.style.opacity = "1";
+          }, 10);
+        });
+
+        placeholder.addEventListener("mouseleave", () => {
+          const overlay = imageContainer.querySelector(".bg-black");
+          if (overlay) {
+            overlay.remove();
+          }
+        });
+      }
+
+      showFallback(placeholder, originalContent) {
+        placeholder.classList.remove("loading");
+        placeholder.innerHTML = originalContent;
+        placeholder.classList.add("image-error");
+      }
+    }
+
+    // SEO-optimized image paths
+    const SEO_IMAGE_PATHS = {
+      hero1: "/images/professional-nail-art-showcase-vaxjo.jpg",
+      hero2: "/images/manicure-process-nailsbyceline.jpg",
+      hero3: "/images/modern-nail-salon-interior-vaxjo.jpg",
+      hero4: "/images/satisfied-client-beautiful-nails.jpg",
+      featured1: "/images/elegant-french-manicure-gold-accents.jpg",
+      featured2: "/images/colorful-geometric-nail-art-design.jpg",
+      featured3: "/images/acrylic-extensions-ombre-design.jpg",
+      gallery1: "/images/professional-gel-manicure-vaxjo.jpg",
+      gallery2: "/images/custom-nail-art-designs.jpg",
+      gallery3: "/images/french-tips-classic-elegance.jpg",
+      gallery4: "/images/nail-extensions-long-lasting.jpg",
+      gallery5: "/images/creative-nail-patterns.jpg",
+      insta1: "/images/daily-nail-art-inspiration-1.jpg",
+      insta2: "/images/client-transformation-before-after.jpg",
+      insta3: "/images/seasonal-nail-design-trends.jpg",
+      insta4: "/images/professional-nail-care-process.jpg",
+      insta5: "/images/nail-art-detail-close-up.jpg",
+      insta6: "/images/happy-client-testimonial.jpg",
+      service1: "/images/classic-manicure-service-vaxjo.jpg",
+      service2: "/images/gel-manicure-long-lasting-shine.jpg",
+      service3: "/images/custom-nail-art-design-service.jpg",
+      service4: "/images/french-manicure-timeless-elegance.jpg",
+      before1: "/images/nail-transformation-before-1.jpg",
+      after1: "/images/nail-transformation-after-1.jpg",
+      before2: "/images/nail-transformation-before-2.jpg",
+      after2: "/images/nail-transformation-after-2.jpg",
+      before3: "/images/nail-transformation-before-3.jpg",
+      after3: "/images/nail-transformation-after-3.jpg",
+      client1: "/images/satisfied-client-testimonial-1.jpg",
+      client2: "/images/happy-customer-review-2.jpg",
+      client3: "/images/client-recommendation-3.jpg",
+      social1: "/images/instagram-nail-art-post-1.jpg",
+      social2: "/images/social-media-client-feature-2.jpg",
+      social3: "/images/nail-inspiration-post-3.jpg",
+      social4: "/images/behind-scenes-salon-work.jpg",
+      social5: "/images/nail-care-tips-tutorial.jpg",
+      social6: "/images/seasonal-nail-trends.jpg",
+    };
+
+    // Auto-assign SEO-friendly images
+    function autoAssignSEOImages() {
+      const placeholders = document.querySelectorAll(".image-placeholder[data-image-key]");
+      placeholders.forEach((placeholder) => {
+        const key = placeholder.getAttribute("data-image-key");
+        if (SEO_IMAGE_PATHS[key]) {
+          placeholder.setAttribute("data-image", SEO_IMAGE_PATHS[key]);
+        }
+      });
+    }
+
+    // Performance and SEO optimizations
+    document.addEventListener("DOMContentLoaded", () => {
+      autoAssignSEOImages();
+      new SEOImageHandler();
+
+      // Preload critical resources
+      const criticalImages = [
+        "/images/professional-nail-art-showcase-vaxjo.jpg",
+        "/images/og-image.jpg"
+      ];
+
+      criticalImages.forEach(src => {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = src;
+        document.head.appendChild(link);
+      });
+
+      // Enhanced form handling
+      const form = document.querySelector("form");
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalText = submitBtn.textContent;
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Booking...";
+
+          setTimeout(() => {
+            alert(`Thank you for booking with NailsByCeline! We will contact you within 24 hours to confirm your appointment in Växjö.`);
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            form.reset();
+          }, 2000);
+        });
+      }
+    });
+
+    // Smooth scrolling with offset for fixed header
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href").substring(1);
+        const target = document.getElementById(targetId);
+
+        if (target) {
+          const headerOffset = 80;
+          const elementPosition = target.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+
+          history.pushState(null, null, `#${targetId}`);
+        }
+      });
+    });
+
+    // Enhanced scroll to top with progress indicator
+    const scrollToTopBtn = document.getElementById("scrollToTop");
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+
+      if (scrollTop > 300) {
+        scrollToTopBtn.classList.remove("opacity-0", "invisible");
+        scrollToTopBtn.style.background = `conic-gradient(#ec4899 ${scrollPercent}%, #374151 ${scrollPercent}%)`;
+      } else {
+        scrollToTopBtn.classList.add("opacity-0", "invisible");
+      }
+    });
+
+    scrollToTopBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+    // Intersection Observer for animations
+    if ('IntersectionObserver' in window) {
+      const animateOnScroll = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("fade-in");
+          }
+        });
+      });
+
+      document.querySelectorAll(".service-card, article").forEach((el) => {
+        animateOnScroll.observe(el);
+      });
+    }
+
+    // Performance monitoring
+    if ('performance' in window) {
+      window.addEventListener('load', () => {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        console.log(`Page loaded in ${navigation.loadEventEnd - navigation.fetchStart}ms`);
+      });
+    }
+
+    // Service Worker registration for PWA features
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'GA_TRACKING_ID');
+
+    gtag('event', 'page_view', {
+      page_title: 'Professional Nail Salon in Växjö - NailsByCeline',
+      page_location: window.location.href,
+      content_group1: 'Nail Salon',
+      content_group2: 'Växjö'
+    });
+  </script>
+</body>
+
 </html>
