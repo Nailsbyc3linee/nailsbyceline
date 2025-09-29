@@ -1,36 +1,101 @@
 {
-  "name": "hugow-cv-website",
-  "version": "1.0.0",
-  "description": "Personal CV website for Hugo using Bun",
+  "name": "nailsbyceline-seo-website",
+  "version": "2.0.0",
+  "description": "SEO-optimized professional nail salon website for NailsByCeline in Växjö, Sweden",
   "main": "src/app.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build src/app.ts --outdir dist --target bun",
+    "build": "bun build src/app.ts --outdir dist --target bun --minify",
     "start": "bun run src/app.ts",
     "dev": "bun --watch src/app.ts",
-    "prod": "bun run dist/app.js"
+    "prod": "NODE_ENV=production bun run dist/app.js",
+    "seo:audit": "lighthouse http://localhost:1000 --output=html --output-path=./seo-audit.html",
+    "seo:sitemap": "node scripts/generate-sitemap.js",
+    "optimize:images": "node scripts/optimize-images.js",
+    "test:seo": "jest --testPathPattern=seo"
   },
   "keywords": [
-    "cv",
-    "portfolio",
-    "bun",
-    "typescript"
+    "nail salon",
+    "Växjö",
+    "Sweden",
+    "manicure",
+    "pedicure",
+    "nail art",
+    "gel nails",
+    "French manicure",
+    "acrylic extensions",
+    "professional nail care",
+    "beauty salon",
+    "Kronoberg"
   ],
-  "author": "Hugo",
+  "author": {
+    "name": "NailsByCeline",
+    "email": "Nailsbyc3linee@gmail.com",
+    "url": "https://nailsbyceline.se"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nailsbyceline/website"
+  },
+  "homepage": "https://nailsbyceline.se",
   "dependencies": {
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
     "meta": "^2.2.25",
-    "tailwindcss": "^4.1.13"
+    "tailwindcss": "^4.1.13",
+    "sitemap": "^8.0.0",
+    "robots-parser": "^3.0.1"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/compression": "^1.7.5",
+    "lighthouse": "^11.4.0",
+    "sharp": "^0.33.1",
+    "imagemin": "^8.0.1",
+    "imagemin-webp": "^8.0.0",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^10.0.0",
+    "jest": "^29.7.0"
   },
   "engines": {
-    "bun": ">=1.0.0"
+    "bun": ">=1.0.0",
+    "node": ">=18.0.0"
+  },
+  "seo": {
+    "title": "Professional Nail Salon in Växjö - NailsByCeline",
+    "description": "Expert nail care services in Växjö, Sweden. Specializing in gel manicures, nail art, French manicures, and acrylic extensions. Book your appointment today!",
+    "url": "https://nailsbyceline.se",
+    "image": "https://nailsbyceline.se/images/og-image.jpg",
+    "locale": "en_SE",
+    "type": "business.business"
+  },
+  "business": {
+    "name": "NailsByCeline",
+    "type": "NailSalon",
+    "address": {
+      "city": "Växjö",
+      "region": "Kronoberg",
+      "country": "Sweden",
+      "postalCode": "352 46"
+    },
+    "coordinates": {
+      "latitude": 56.8777,
+      "longitude": 14.8091
+    },
+    "contact": {
+      "phone": "+46 76-709 84 88",
+      "email": "Nailsbyc3linee@gmail.com"
+    },
+    "social": {
+      "instagram": "https://instagram.com/nailsbyc3linee",
+      "tiktok": "https://tiktok.com/@nailsbyc3line"
+    }
   }
 }
