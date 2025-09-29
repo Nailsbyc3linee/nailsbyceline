@@ -956,9 +956,21 @@
       }
 
       setupImages() {
-        const placeholders = document.querySelectorAll(".image-placeholder[data-image]");
+        const placeholders = document.querySelectorAll(".image-placeholder[data-image-key]");
+        console.log(`Found ${placeholders.length} image placeholders`);
+
         placeholders.forEach((placeholder) => {
-          this.loadImageWithSEO(placeholder);
+          const key = placeholder.getAttribute("data-image-key");
+          console.log(`Processing image key: ${key}`);
+
+          if (SEO_IMAGE_PATHS[key]) {
+            const imagePath = SEO_IMAGE_PATHS[key];
+            console.log(`Assigned path for ${key}: ${imagePath}`);
+            placeholder.setAttribute("data-image", imagePath);
+            this.loadImageWithSEO(placeholder);
+          } else {
+            console.warn(`No image path found for key: ${key}`);
+          }
         });
       }
 

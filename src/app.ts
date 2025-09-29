@@ -95,13 +95,6 @@ const businessInfo = {
       duration: "30-90 minutes",
       keywords: "nail art Växjö, custom nail designs, decorative nails",
     },
-    {
-      name: "French Manicure",
-      description: "Timeless French tip design for an elegant, classic look",
-      price: "300 - 400 kr",
-      duration: "50 minutes",
-      keywords: "French manicure Växjö, French tips, elegant nails",
-    },
   ],
 
   socialMedia: {
