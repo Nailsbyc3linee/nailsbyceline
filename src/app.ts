@@ -57,33 +57,33 @@ const businessInfo = {
   },
 
   hours: {
-    weekdays: "Monday - Friday: 17:00 - 19:00",
-    weekend: "Saturday - Sunday: 12:00 - 20:00",
+    weekdays: "Monday - Friday: 17:00 - 20:00",
+    weekend: "Saturday - Sunday: 13:00 - 21:00",
     structured: [
-      { day: "Monday", opens: "17:00", closes: "19:00" },
-      { day: "Tuesday", opens: "17:00", closes: "19:00" },
-      { day: "Wednesday", opens: "17:00", closes: "19:00" },
-      { day: "Thursday", opens: "17:00", closes: "19:00" },
-      { day: "Friday", opens: "17:00", closes: "19:00" },
-      { day: "Saturday", opens: "12:00", closes: "20:00" },
-      { day: "Sunday", opens: "12:00", closes: "20:00" },
+      { day: "Monday", opens: "17:00", closes: "20:00" },
+      { day: "Tuesday", opens: "17:00", closes: "20:00" },
+      { day: "Wednesday", opens: "17:00", closes: "20:00" },
+      { day: "Thursday", opens: "17:00", closes: "20:00" },
+      { day: "Friday", opens: "17:00", closes: "20:00" },
+      { day: "Saturday", opens: "12:00", closes: "21:00" },
+      { day: "Sunday", opens: "12:00", closes: "21:00" },
     ],
   },
 
   services: [
     {
-      name: "Classic Manicure",
+      name: "Builder Gel Extension",
       description:
-        "Professional nail care with polish application for healthy, beautiful nails",
-      price: "250 - 350 kr",
-      duration: "45 minutes",
-      keywords: "classic manicure Växjö, nail polish, cuticle care",
+        "Professional nail extension using builder gel for strong, long lasting, and natural-looing nails. Includes shaping, cuticle care and filing.",
+      price: "250 - 500kr",
+      duration: "120-210 minutes",
+      keywords: "builder gel extension, gel nails, nail extension, acrylic alternative, nail strengthening",
     },
     {
       name: "Gel Manicure",
       description:
         "Long-lasting gel polish that maintains shine for up to 3 weeks",
-      price: "450 - 550 kr",
+      price: "250 - 350 kr",
       duration: "60 minutes",
       keywords: "gel manicure Växjö, long-lasting nail polish, gel nails",
     },
@@ -91,8 +91,8 @@ const businessInfo = {
       name: "Nail Art Design",
       description:
         "Custom nail art and decorative designs tailored to your style",
-      price: "150 - 400 kr",
-      duration: "30-90 minutes",
+      price: "200 - 400 kr",
+      duration: "60-90 minutes",
       keywords: "nail art Växjö, custom nail designs, decorative nails",
     },
   ],
