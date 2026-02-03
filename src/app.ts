@@ -75,24 +75,24 @@ const businessInfo = {
       name: "Builder Gel Extension",
       description:
         "Professional nail extension using builder gel for strong, long lasting, and natural-looing nails.",
-      price: "250-500kr",
-      duration: "150+ minutes",
+      price: "300-500",
+      duration: "180 minutes",
       keywords: "builder gel extension, gel nails, nail extension, acrylic alternative, nail strengthening",
     },
     {
-      name: "Gel Manicure",
+      name: "Basic Gel Manicure",
       description:
         "Long-lasting gel polish that maintains shine for up to 3 weeks.",
-      price: "250-350 kr",
+      price: "200-275 kr",
       duration: "120 minutes",
       keywords: "gel manicure Alvesta, long-lasting nail polish, gel nails",
     },
     {
-      name: "Nail Art Design",
+      name: "Gel Polish Nail Art Design",
       description:
         "Custom nail art and decorative designs tailored to your style.",
       price: "200-400 kr",
-      duration: "60-90 minutes",
+      duration: "120 minutes",
       keywords: "nail art ALvesta, custom nail designs, decorative nails",
     },
   ],
